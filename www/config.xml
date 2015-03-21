@@ -60,8 +60,9 @@
 <gap:plugin name="org.apache.cordova.vibration" />
 <!-- Third party plugins -->
 <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
-<!--
-	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
+
+	<gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
+<!--	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
 -->
 <!-- Define app icon for each platform. -->
 <!--
@@ -79,7 +80,7 @@
 <icon src="res/icon/webos/icon-64.png" gap:platform="webos" />
 <icon src="res/icon/windows-phone/icon-48.png" gap:platform="winphone" />
 <icon src="res/icon/windows-phone/icon-173.png" gap:platform="winphone" gap:role="background" />
-<!-- Define app splash screen for each platform. -->
+	Define app splash screen for each platform. -->
 <gap:splash src="img/loading.gif" />
 <!--
 <gap:splash src="res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi" />
