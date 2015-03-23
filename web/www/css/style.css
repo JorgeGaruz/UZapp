@@ -1,1 +1,82 @@
 /* Empty. Add your own CSS if you like */
+
+
+/* MENU LATERAL */
+.mymenu {
+    color: #ffffff;
+    background: -webkit-linear-gradient(left, #002040 , #304A64); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #002040 , #304A64); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #002040 , #304A64); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #002040 , #304A64);
+}
+
+/*Set the background to transparent for ion-item*/
+.mymenu .item {
+    padding: 0px 20px 0px 10px;
+    border-style: none;
+
+    background: -webkit-linear-gradient(left, #002040 , #304A64); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #002040 , #304A64); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #002040 , #304A64); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #002040 , #304A64);
+}
+
+.mymenu .item span {
+    margin-left: 25px;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.mymenu .item i {
+    margin-left: 15px;
+    padding: 0px;
+    font-size: 1.2em;
+}
+
+/*Ion-item adds item-complex and an inner div, .item-content*/
+/* this needs to be transparent too, but doesnt need borders*/
+.mymenu .item-complex .item-content, .mymenu .item-radio .item-content {
+    background-color: transparent;
+    padding: 20px 0px 20px 0px;
+}
+
+/*Just makes the type white*/
+.mymenu h2,
+.mymenu h3,
+.mymenu p,
+.mymenu a {
+    color: #ffffff;
+}
+
+#menu-list {
+    margin-top: 40px;
+}
+
+
+
+/* Splash */
+#splash-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 60px;
+    padding-bottom: 30px;
+}
+
+#splash-div {
+    display: table;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#loading-div {
+    margin-top: 50px;
+}
+
+
+/* Pagina Inicio */
+.logo-wrapper {
+    margin: 0px;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
