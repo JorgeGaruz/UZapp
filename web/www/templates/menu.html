@@ -13,16 +13,19 @@
       <div id="menu-list">
         <ion-list class="list">
           <ion-item item-type="item-icon-left" nav-clear menu-close href="#/app/home">
-            <i class="icon ion-home"></i><span>Inicio</span>
+            <i class="icon ion-home"></i><span>{{translation.INICIO}}</span>
           </ion-item>
           <ion-item item-type="item-icon-left" nav-clear menu-close href="#/app/busqueda">
-            <i class="icon ion-ios-search"></i><span>Busqueda</span>
+            <i class="icon ion-ios-search"></i><span>{{translation.BUSQUEDA}}</span>
           </ion-item>
           <ion-item item-type="item-icon-left" nav-clear menu-close href="#/app/favoritos">
-            <i class="icon ion-star"></i><span>Favoritos</span>
+            <i class="icon ion-star"></i><span>{{translation.FAVORITOS}}</span>
           </ion-item>
           <ion-item item-type="item-icon-left" nav-clear menu-close href="#/app/ajustes">
-            <i class="icon ion-settings"></i><span>Ajustes</span>
+            <i class="icon ion-settings"></i><span>{{translation.AJUSTES}}</span>
+          </ion-item>
+          <ion-item item-type="item-icon-left" nav-clear menu-close href="" ng-click="salirPagina()">
+            <i class="icon ion-close"></i><span>{{translation.SALIR}}</span>
           </ion-item>
         </ion-list>
       </div>
