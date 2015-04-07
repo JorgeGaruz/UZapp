@@ -1,15 +1,15 @@
 (function(){
   var app = angular.module('starter.controllers',[]);
 
+
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
   app.controller('AppCtrl', function($scope, $timeout, $state) {
 
     // Timeout para ir a home
-    $timeout(function() {
-      $state.go('app.home');
-    }, 2000);
+   // $timeout(function() {
+     // $state.go('app.home');}, 2000);
 
     $scope.salirPagina = function() {
       var confirmPopup = $ionicPopup.confirm({
@@ -42,19 +42,34 @@
 
   })*/
 
-      app.controller('TranslationCtrl',['$scope', 'translationService',
-        function ($scope, translationService){
+    app.controller('TranslationCtrl',['$scope', 'translationService',
+      function ($scope, translationService){
 
-          //Run translation if selected language changes
-          $scope.translate = function(){
-            translationService.getTranslation($scope, $scope.selectedLanguage);
-          };
+        //Run translation if selected language changes
+        $scope.translate = function(){
+          translationService.getTranslation($scope, $scope.selectedLanguage);
+        };
 
-          //Init
-          $scope.selectedLanguage = 'es';
+        $scope.changeLanguage = function (langKey) {
+          console.log(langKey);
+          $scope.selectedLanguage = langKey;
           $scope.translate();
+        };
 
-        }])
+        //Init
+        $scope.selectedLanguage = 'es';
+        $scope.translate();
+
+      }])
+
+  app.controller('TranslateController', function($translate, $scope) {
+    $scope.changeLanguage = function (langKey) {
+      console.log(langKey);
+      $scope.selectedLanguage = langKey;
+      $scope.translate();
+
+    };
+  });
 
 })
 

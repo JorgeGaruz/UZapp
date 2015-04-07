@@ -3,5 +3,8 @@
   "BUSQUEDA":"Search",
   "FAVORITOS":"Favourites",
   "AJUSTES":"Settings",
-  "SALIR":"Exit"
+  "SALIR":"Exit",
+  "INGLES":"English",
+  "SELECCIONAR_IDIOMA":"Select the app languaje",
+  "ESPANOL":"Spanish"
 }

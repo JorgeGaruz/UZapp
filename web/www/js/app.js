@@ -76,8 +76,6 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'angularSli
 
 
 
-
-
   /*
     .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
 
