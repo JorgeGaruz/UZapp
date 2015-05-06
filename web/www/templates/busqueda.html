@@ -1,10 +1,88 @@
-<ion-view title="Busqueda">
+<ion-view title={{translation.BUSQUEDA}}>
 
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
   <ion-content>
+
+    <div class="list">
+
+      <label class="item item-input item-select">
+        <div class="input-label" >
+          {{translation.SELECCIONAR_CIUDAD}}
+        </div>
+        <select class="ion-input-select" ng-model="ciudad" >
+          <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
+          <option value="zaragoza">Zaragoza</option>
+          <option value="huesca">Huesca</option>
+          <option value="teruel">Teruel</option>
+        </select>
+
+      </label>
+
+      <label class="item item-input item-select">
+        <div class="input-label" >
+          {{translation.SELECCIONAR_CAMPUS}}
+        </div>
+        <select class="ion-input-select" ng-model="campus" >
+          <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
+          <option value="rio_ebro">Rio Ebro</option>
+          <option value="san_francisco">San Francisco</option>
+          <option value="huesca">Huesca</option>
+          <option value="teruel">Teruel</option>
+        </select>
+
+      </label>
+
+      <label class="item item-input item-select">
+        <div class="input-label" >
+          {{translation.SELECCIONAR_EDIFICIO}}
+        </div>
+        <select class="ion-input-select" ng-model="edificio" >
+          <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
+          <option value="ada_byron">Ada Byron</option>
+          <option value="torres_quevedo">Torres Quevedo</option>
+          <option value="betancourt">Betancourt</option>
+        </select>
+
+      </label>
+
+      <label class="item item-input item-select">
+      <div class="input-label" >
+        {{translation.SELECCIONAR_PLANTA}}
+      </div>
+      <select class="ion-input-select" ng-model="planta" >
+        <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
+        <option value="primera">Primera</option>
+        <option value="segunda">Segunda</option>
+        <option value="tercera">Tercera</option>
+      </select>
+
+    </label>
+
+      <label class="item item-input item-select">
+        <div class="input-label" >
+          {{translation.SELECCIONAR_ESTANCIA}}
+        </div>
+        <select class="ion-input-select" ng-model="estancia">
+          <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
+          <option value="aula">Aula</option>
+          <option value="laboratorio">Laboratorio</option>
+          <option value="despacho">Despacho</option>
+        </select>
+
+      </label>
+
+    </div>
+
+    <div class="btn-wrapper">
+      <a class="button button-block button-stable btn-formulario">
+       <!--  ng-click="search(nombre, apel1, apel2, centro, campus, seccion)"
+         href="#/app/profesoresList">-->
+        Buscar
+      </a>
+    </div>
 
 
   </ion-content>

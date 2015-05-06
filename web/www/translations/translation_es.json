@@ -3,8 +3,14 @@
   "BUSQUEDA":"Busqueda",
   "FAVORITOS":"Favoritos",
   "AJUSTES":"Ajustes",
+  "MAPA":"Mapa",
   "SALIR":"Salir",
   "INGLES":"Inglés",
   "SELECCIONAR_IDIOMA":"Selecciona el idioma para la aplicación",
+  "SELECCIONAR_CIUDAD":"Ciudad",
+  "SELECCIONAR_CAMPUS":"Campus",
+  "SELECCIONAR_EDIFICIO":"Edificio",
+  "SELECCIONAR_PLANTA":"Planta",
+  "SELECCIONAR_ESTANCIA":"Estancia",
   "ESPANOL":"Español"
 }

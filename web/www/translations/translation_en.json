@@ -3,8 +3,14 @@
   "BUSQUEDA":"Search",
   "FAVORITOS":"Favourites",
   "AJUSTES":"Settings",
+  "MAPA":"Map",
   "SALIR":"Exit",
   "INGLES":"English",
   "SELECCIONAR_IDIOMA":"Select the app languaje",
+  "SELECCIONAR_CIUDAD":"City",
+  "SELECCIONAR_CAMPUS":"Campus",
+  "SELECCIONAR_EDIFICIO":"Building",
+  "SELECCIONAR_PLANTA":"Floor",
+  "SELECCIONAR_ESTANCIA":"Room",
   "ESPANOL":"Spanish"
 }
