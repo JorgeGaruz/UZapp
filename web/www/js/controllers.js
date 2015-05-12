@@ -29,23 +29,9 @@
   /**********************************************************************
    * MapCtrl: Controlador de Leaflet
    ***********************************************************************/
-  app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter) {
+  app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService) {
 
-    var MIN_ZOOM = 15;
-    var INIT_ZOOM = 17;
-    var MAX_ZOOM = 18;
-
-    //Gran Vía
-    var GRAN_LAT = 41.647673;
-    var GRAN_LON = -0.887874;
-
-    var map = L.map('mapa').setView([GRAN_LAT, GRAN_LON], INIT_ZOOM);
-    map.attributionControl.setPrefix('');
-
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      minZoom: MIN_ZOOM,
-      maxZoom: MAX_ZOOM
-    }).addTo(map);
+    geoService.crearMapa($scope);
 
   });
   /**************************************************************************
