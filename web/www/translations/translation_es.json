@@ -12,5 +12,13 @@
   "SELECCIONAR_EDIFICIO":"Edificio",
   "SELECCIONAR_PLANTA":"Planta",
   "SELECCIONAR_ESTANCIA":"Estancia",
+  "PRIMERA" : "Primera",
+  "SEGUNDA": "Segunda",
+  "TERCERA": "Tercera",
+  "AULA": "Aula",
+  "LABORATORIO": "Laboratorio",
+  "DESPACHO": "Despacho",
+  "BUSCAR": "Buscar",
+  "ACCEDER": "Acceder",
   "ESPANOL":"Español"
 }

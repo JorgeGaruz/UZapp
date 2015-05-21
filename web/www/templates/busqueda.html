@@ -54,9 +54,9 @@
       </div>
       <select class="ion-input-select" ng-model="planta" >
         <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-        <option value="primera">Primera</option>
-        <option value="segunda">Segunda</option>
-        <option value="tercera">Tercera</option>
+        <option value="primera">{{translation.PRIMERA}}</option>
+        <option value="segunda">{{translation.SEGUNDA}}</option>
+        <option value="tercera">{{translation.TERCERA}}</option>
       </select>
 
     </label>
@@ -67,20 +67,20 @@
         </div>
         <select class="ion-input-select" ng-model="estancia">
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-          <option value="aula">Aula</option>
-          <option value="laboratorio">Laboratorio</option>
-          <option value="despacho">Despacho</option>
+          <option value="aula">{{translation.AULA}}</option>
+          <option value="laboratorio">{{translation.LABORATORIO}}</option>
+          <option value="despacho">{{translation.DESPACHO}}</option>
         </select>
 
       </label>
 
     </div>
 
-    <div class="btn-wrapper">
+    <div class="button button-positive btn-wrapper">
       <a class="button button-block button-stable btn-formulario">
        <!--  ng-click="search(nombre, apel1, apel2, centro, campus, seccion)"
          href="#/app/profesoresList">-->
-        Buscar
+        {{translation.BUSCAR}}
       </a>
     </div>
 

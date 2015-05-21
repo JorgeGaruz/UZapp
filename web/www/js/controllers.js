@@ -5,24 +5,12 @@
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
-  app.controller('AppCtrl', function($scope, $timeout, $state) {
+  app.controller('AppCtrl', function($scope, $timeout, $state,$ionicPopup, $window) {
 
     // Timeout para ir a home
    // $timeout(function() {
      // $state.go('app.home');}, 2000);
 
-    $scope.salirPagina = function() {
-      var confirmPopup = $ionicPopup.confirm({
-        template: '<div id="texto-popup"><strong>¿Desea salir?</strong><br/></div>',
-        okText: 'SÍ',
-        cancelText: 'NO'
-      });
-      confirmPopup.then(function(res) {
-        if(res) {
-          $window.close();
-        }
-      });
-    };
 
   });
 

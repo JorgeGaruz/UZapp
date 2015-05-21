@@ -1,16 +1,81 @@
-<ion-view title={{translation.INICIO}}>
+<ion-view title={{translation.INICIO}} xmlns="http://www.w3.org/1999/html">
 
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
   <ion-content>
-    <div class="logo-wrapper">
-      <a href="#/app/mapa">
-        <img src="img/Provincias-de-Aragon.jpg" alt="Mapa de provincias de Aragon"> </img>
-      </a>
+    <div class="entrada">
+      <div class="logo-wrapper">
+        <h1>Seleccione campus a visitar</h1>
+        <a href="#/app/mapa">
+          <img src="img/Provincias-de-Aragon.jpg" alt="Mapa de provincias de Aragon"> </img>
+        </a>
+      </div>
+
+
+      <div class="form-entrada">
+        <div class="list">
+          <label class="item item-radio">
+            <div class="item-content">
+              <strong>Zaragoza</strong>
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+          <label class="item item-radio">
+
+            <input type="radio" name="group">
+            <div class="item-content">
+              Campus Rio Ebro
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+          <label class="item item-radio">
+
+            <input type="radio" name="group">
+            <div class="item-content">
+              Campus San Francisco
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+          <label class="item item-radio">
+
+            <input type="radio" name="group">
+            <div class="item-content">
+              Paraninfo
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+
+          <label class="item item-radio">
+
+            <input type="radio" name="group">
+            <div class="item-content">
+              <strong>Huesca</strong>
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+
+          <label class="item item-radio">
+
+            <input type="radio" name="group">
+            <div class="item-content">
+              <strong>Teruel</strong>
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+
+
+        </div>
+
+        <button class="button button-large button-positive" onClick="window.location='#/app/mapa'">
+          {{translation.ACCEDER}}
+        </button>
+      </div>
+
     </div>
 
   </ion-content>
+
   
 </ion-view>

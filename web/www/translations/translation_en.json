@@ -12,5 +12,13 @@
   "SELECCIONAR_EDIFICIO":"Building",
   "SELECCIONAR_PLANTA":"Floor",
   "SELECCIONAR_ESTANCIA":"Room",
+  "PRIMERA" : "First",
+  "SEGUNDA": "Second",
+  "TERCERA": "Third",
+  "AULA": "Class",
+  "LABORATORIO": "Lab",
+  "DESPACHO": "Office",
+  "BUSCAR": "Search",
+  "ACCEDER": "Go",
   "ESPANOL":"Spanish"
 }

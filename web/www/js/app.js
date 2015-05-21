@@ -81,31 +81,4 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     })
 
 
-
-
-
-
-  /*
-    .config(function($stateProvider, $urlRouterProvider, $translateProvider) {
-
-      for(lang in translations){
-        $translateProvider.translations(lang, translations[lang]);
-      }
-
-      $translateProvider.preferredLanguage('en');
-    })
-
-
-var translations = {
-  "es": {
-    "TITLE": "Hola",
-    "hp2": "(On desktop click and drag from left to right)",
-    "ht": "Welcome"
-  },
-  "en": {
-    "TITLE": "Hello",
-    "hp2": "(Auf dem Desktop klicken und ziehen Sie von links nach rechts)",
-    "ht": "willkommen"
-  }
-}*/
 ;
