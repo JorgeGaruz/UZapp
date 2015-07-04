@@ -1,5 +1,8 @@
 /* Empty. Add your own CSS if you like */
-
+html,body {
+    height: 100%;
+    width:100%;
+}
 h1{
     text-align: center;
 }
@@ -93,27 +96,39 @@ h1{
 
 /* Pagina Inicio */
 .logo-wrapper {
-    width: 48%;
+    width: 70%;
+    height: 95%;
     text-align: left;
     padding-top: 30px;
     padding-bottom: 30px;
-    float:left;
     border-style: solid;
     border-width: 1px;
-    margin-left:2%;
+    margin-left:15%;
+    margin-right:15%;
 }
-
+.entrada{
+    width: 100%;
+    height: 100%;
+}
 #form-entrada {
-    float:left;
     width: 48%;
     border-style: solid;
     border-width: 1px;
     margin-right:2%;
 }
-#entrada{
-    margin-top:5%;
-    width: 96%;
-}
+
 #boton{
     float:right;
+}
+img[usemap] {
+    border: none;
+    height: auto;
+    max-width: 100%;
+    width: auto;
+}
+#img-logo{
+    height: 10%;
+    width: 20%;
+    margin-right:40%;
+    margin-left:40%;
 }

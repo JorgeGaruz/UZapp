@@ -1,27 +1,109 @@
 (function(){
   var app = angular.module('starter.controllers',[]);
 
-
+  app.factory('miFactoria', function(){
+    return {
+      datosMapa: [{
+        nombre: "Zaragoza",
+        latitud: 41.653496,
+        longitud: -0.889492
+      },
+        {
+          nombre: "Huesca",
+          latitud: 42.142172,
+          longitud: -0.405557
+        },
+        {
+          nombre: "Teruel",
+          latitud: 40.351661,
+          longitud: -1.110081
+        }]
+    };
+  });
+  var opcion;
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
-  app.controller('AppCtrl', function($scope, $timeout, $state,$ionicPopup, $window) {
+  app.controller('AppCtrl', ['$scope','geoService','miFactoria',function($scope,$rootScope,geoService,miFactoria) {
 
-    // Timeout para ir a home
-   // $timeout(function() {
-     // $state.go('app.home');}, 2000);
+    // Si la pulsación ha sido en la vista de inicio
+    $scope.Huesca = function() {
+      console.log("huesca");
 
+      opcion=1;
 
-  });
+    }
+    $scope.Zaragoza = function() {
+      console.log("zaragoza");
+
+      opcion=0;
+
+    }
+    $scope.Teruel = function() {
+      console.log("teruel");
+
+      opcion=2;
+
+    }
+
+  }]);
 
   /**********************************************************************
    * MapCtrl: Controlador de Leaflet
    ***********************************************************************/
-  app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService) {
+  app.controller('MapZaragozaCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria) {
+
+
+    $scope.mapa=geoService.crearMapa($scope,miFactoria,opcion);
+
+
+    /*var formatter = new OpenLayers.Format.WMSCapabilities();
+    //var endpoint = "path/to/wms/endpoint";
+    var layers = [];
+
+    // async call to geoserver (I'm using angular)
+    $http.get('http://155.210.14.31:8080/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities').
+
+        success(function(data, status, headers, config) {
+
+          // use the tool to parse the data
+          var response = (formatter.read(data));
+
+          console.log(response);
+
+          // this object contains all the GetCapabilities data
+          var capability = response.capability;
+
+          // I want a list of names to use in my queries
+          for(var i = 0; i < capability.layers.length; i ++){
+            layers.push(capability.layers[i].name);
+            console.log(capability.layers[i].name);
+          }
+        }).
+
+        error(function(data, status, headers, config) {
+          alert("terrible error logging..");
+        });
+*/
+  });
+
+  app.controller('MapHuescaCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService) {
+
+
 
     geoService.crearMapa($scope);
 
   });
+
+  app.controller('MapTeruelCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService) {
+
+
+
+    geoService.crearMapa($scope);
+
+  });
+
+
   /**************************************************************************
    * TopCtrl: Controlador encargado de redirigir la aplicación a la pantalla
    *          de splash en caso de refresco de página

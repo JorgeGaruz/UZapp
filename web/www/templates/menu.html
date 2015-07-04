@@ -6,7 +6,7 @@
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
   </ion-pane>
 
-  <ion-side-menu side="left">
+  <ion-side-menu side="left" >
 
     <ion-content class="mymenu">
 
@@ -23,6 +23,15 @@
           </ion-item>
           <ion-item item-type="item-icon-left" nav-clear menu-close href="#/app/ajustes">
             <i class="icon ion-settings"></i><span>{{translation.AJUSTES}}</span>
+          </ion-item>
+          <ion-item item-type="item-icon-left" nav-clear menu-close ng-click=" Zaragoza()" href="#/app/mapa">
+            <span>Zaragoza</span>
+          </ion-item>
+          <ion-item item-type="item-icon-left" nav-clear menu-close ng-click=" Huesca()" href="#/app/mapa">
+            <span>Huesca</span>
+          </ion-item>
+          <ion-item item-type="item-icon-left" nav-clear menu-close ng-click=" Teruel()" href="#/app/mapa">
+            <span>Teruel</span>
           </ion-item>
         </ion-list>
       </div>

@@ -4,74 +4,92 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
+
   <ion-content>
     <div class="entrada">
-      <div class="logo-wrapper">
-        <h1>Seleccione campus a visitar</h1>
-        <a href="#/app/mapa">
-          <img src="img/Provincias-de-Aragon.jpg" alt="Mapa de provincias de Aragon"> </img>
-        </a>
-      </div>
+        <img id ="img-logo" src="img/logo_uz.png" alt="Logo de la Universidad de Zaragoza"> </img>
+        <div class="logo-wrapper">
+         <h1>Seleccione campus a visitar</h1>
+            <img id ="fotoAragon" src="img/Provincias-de-Aragon.jpg"usemap="#aragon" alt="Mapa de provincias de Aragon"> </img>
+            <map name="aragon">
+              <area shape="rect" coords="425,229,559,310" ng-click=" Huesca()" href="#/app/mapa"   title="Huesca" alt="Huesca" />
+              <area shape="rect" coords="139,423,310,505" ng-click=" Zaragoza()" href="#/app/mapa" title="Zaragoza" alt="Zaragoza" />
+              <area shape="rect" coords="232,700,355,777" ng-click=" Teruel()" href="#/app/mapa" title="Teruel" alt="Teruel" />
 
 
-      <div class="form-entrada">
-        <div class="list">
-          <label class="item item-radio">
-            <div class="item-content">
-              <strong>Zaragoza</strong>
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-          <label class="item item-radio">
-
-            <input type="radio" name="group">
-            <div class="item-content">
-              Campus Rio Ebro
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-          <label class="item item-radio">
-
-            <input type="radio" name="group">
-            <div class="item-content">
-              Campus San Francisco
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-          <label class="item item-radio">
-
-            <input type="radio" name="group">
-            <div class="item-content">
-              Paraninfo
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-
-          <label class="item item-radio">
-
-            <input type="radio" name="group">
-            <div class="item-content">
-              <strong>Huesca</strong>
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-
-          <label class="item item-radio">
-
-            <input type="radio" name="group">
-            <div class="item-content">
-              <strong>Teruel</strong>
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-
+            </map>
 
         </div>
 
-        <button class="button button-large button-positive" onClick="window.location='#/app/mapa'">
-          {{translation.ACCEDER}}
-        </button>
-      </div>
+      <script>
+        $(document).ready(function(e) {
+          $('img[usemap]').rwdImageMaps();
+
+          $('area').on('click', function() {
+            alert($(this).attr('alt') + ' clicked');
+          });
+        });
+      </script>
+
+  <!--
+        <div class="form-entrada">
+          <div class="list">
+            <label class="item item-radio">
+              <div class="item-content">
+                <strong>Zaragoza</strong>
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+
+              <input type="radio" name="group">
+              <div class="item-content">
+                Campus Rio Ebro
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+
+              <input type="radio" name="group">
+              <div class="item-content">
+                Campus San Francisco
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+            <label class="item item-radio">
+
+              <input type="radio" name="group">
+              <div class="item-content">
+                Paraninfo
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+
+            <label class="item item-radio">
+
+              <input type="radio" name="group">
+              <div class="item-content">
+                <strong>Huesca</strong>
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+
+            <label class="item item-radio">
+
+              <input type="radio" name="group">
+              <div class="item-content">
+                <strong>Teruel</strong>
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+
+
+          </div>
+
+          <button class="button button-large button-positive" onClick="window.location='#/app/mapa'">
+            {{translation.ACCEDER}}
+          </button>
+        </div>-->
 
     </div>
 
