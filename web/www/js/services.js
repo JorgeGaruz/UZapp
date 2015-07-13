@@ -4,25 +4,18 @@ var app = angular.module('starter.services', []);
 
 app.service('geoService', function () {
 
-    /*return ({
-        // placeBaseMap: placeBaseMap
-        //removeOverlays: removeOverlays,
-        localizarZaragoza: localizarZaragoza,
-        localizarHuesca: localizarHuesca,
-        crearMapa: crearMapa
-    });*/
-
-
-
-    /* function locateUser($scope){
-     $scope.map.locate({setView: true, enableHighAccuracy: true, maxZoom: 20});
-     };*/
 
     this.crearMapa = function($scope,miFactoria,opcion){
 
+
+
+
+/////////////////////////////////////////////////////////////////////////
         console.log("alcanzado");
         $scope.factorias = miFactoria.datosMapa;
         var ggl = new L.Google('ROADMAP');
+        var satelite = new L.Google('SATELLITE');
+        var hybrid = new L.Google('HYBRID');
        // console.log($scope.lon.toString());
         var MIN_ZOOM = 15;
         var INIT_ZOOM = 14;
@@ -32,14 +25,28 @@ app.service('geoService', function () {
         var INI_LAT = 41.653496;
         var INI_LON = -0.889492;
 
-        $scope.map = L.map('mapa').setView([$scope.factorias[opcion].latitud, $scope.factorias[opcion].longitud], INIT_ZOOM);
+        $scope.map = L.map('mapa'
+            ,{
+                crs: L.CRS.EPSG3857,
+                layers: ggl
+             }
+        ).setView([$scope.factorias[opcion].latitud, $scope.factorias[opcion].longitud], INIT_ZOOM);
         $scope.map.attributionControl.setPrefix('');
-        $scope.map.addLayer(ggl);
+        //$scope.map.addLayer(ggl);
 
-        /*L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-         minZoom: MIN_ZOOM,
-         maxZoom: MAX_ZOOM
-         }).addTo(map);*/
+
+        var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            id: 'OSM'
+        });
+
+        var baseMaps = {
+            "OSM": OSM,
+            "Google Roadmap": ggl,
+            "Google Satelite": satelite,
+            "Google Hibrida": hybrid
+        };
+        L.control.layers(baseMaps, {}, {position: 'bottomleft'}).addTo($scope.map);
+
 
         L.marker([41.647673, -0.887874]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Gran Vía, Facultad Económicas</b><br>C/Doctor Cerrada, 1-3</div>");
@@ -63,16 +70,34 @@ app.service('geoService', function () {
             .bindPopup("<div class=\"text-center\"><b>Vicerrectorado Campus Teruel</b><br>C/Ciudad Escolar, s/n</div>");
 
 
-
-        var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/proyecto/wms", {
-            layers: 'csf_1017_00',
+        //var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/proyecto/wms", {
+        var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
+            layers: 'proyecto:csf_1017_00',
             format: 'image/png',
             transparent: true,
-            version: '1.3.0',
-            attribution: "myattribution"
+            version: '1.3.0'
         });
         console.log(mywms);
         mywms.addTo($scope.map);
+
+
+        var geojsonLayer = new L.GeoJSON().addTo($scope.map);
+
+        $.ajax({
+           // url : "http://geoserver.capecodgis.com/geoserver/capecodgis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=capecodgis:tracts_2010_4326&maxFeatures=2&outputFormat=json&format_options=callback:getJson",
+            url: "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:csf_1017_00,proyecto:csf_1017_01&srsName=epsg:4326&outputFormat=text/javascript&format_options=callback:getJson",
+            dataType : 'jsonp',
+            jsonpCallback: 'getJson',
+            success: handleJson
+        });
+        function handleJson(data) {
+            console.log(data)
+            geojsonLayer.addData(data);
+            //$scope.map.addLayer(geojsonLayer);
+        }
+
+
+
         return $scope.map;
     };
 

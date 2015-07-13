@@ -51,7 +51,7 @@
   /**********************************************************************
    * MapCtrl: Controlador de Leaflet
    ***********************************************************************/
-  app.controller('MapZaragozaCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria) {
+  app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria) {
 
 
     $scope.mapa=geoService.crearMapa($scope,miFactoria,opcion);

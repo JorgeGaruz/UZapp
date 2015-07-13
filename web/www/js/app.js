@@ -77,7 +77,7 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
               views: {
                   'menuContent':{
                       templateUrl: "templates/mapa.html"
-                      //controller: 'MapZaragozaCtrl'
+                      //controller: 'MapCtrl'
                   }
               }
           })
