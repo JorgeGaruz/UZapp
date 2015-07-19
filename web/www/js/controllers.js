@@ -21,40 +21,56 @@
     };
   });
   var opcion;
+  var mapa;
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
-  app.controller('AppCtrl', ['$scope','geoService','miFactoria',function($scope,$rootScope,geoService,miFactoria) {
+  app.controller('AppCtrl',function($scope,$rootScope,geoService,miFactoria) {
 
     // Si la pulsación ha sido en la vista de inicio
     $scope.Huesca = function() {
       console.log("huesca");
 
       opcion=1;
-
+      if(!(typeof mapa == 'undefined')){//Para cambiar la vista del mapa Huesca
+        $scope.mapa=mapa;
+        geoService.localizarHuesca($scope.mapa,miFactoria);
+      }
     }
     $scope.Zaragoza = function() {
       console.log("zaragoza");
 
       opcion=0;
+      if(!(typeof mapa == 'undefined')){//Para cambiar la vista del mapa Zaragoza
+        $scope.mapa=mapa;
+        geoService.localizarZaragoza($scope.mapa,miFactoria);
+      }
 
     }
     $scope.Teruel = function() {
       console.log("teruel");
 
       opcion=2;
-
+      if(!(typeof mapa == 'undefined')){//Para cambiar la vista del mapa Teruel
+        $scope.mapa=mapa;
+        geoService.localizarTeruel($scope.mapa,miFactoria);
+      }
     }
 
-  }]);
+  });
 
   /**********************************************************************
    * MapCtrl: Controlador de Leaflet
    ***********************************************************************/
   app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria) {
 
+    console.log(typeof $scope.mapa);
+    if(!(typeof $scope.mapa == 'undefined')){
 
-    $scope.mapa=geoService.crearMapa($scope,miFactoria,opcion);
+      geoService.localizarHuesca($scope,miFactoria);
+    }
+    mapa=geoService.crearMapa($scope,miFactoria,opcion);
+    console.log(mapa);
 
 
     /*var formatter = new OpenLayers.Format.WMSCapabilities();
@@ -85,22 +101,6 @@
           alert("terrible error logging..");
         });
 */
-  });
-
-  app.controller('MapHuescaCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService) {
-
-
-
-    geoService.crearMapa($scope);
-
-  });
-
-  app.controller('MapTeruelCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService) {
-
-
-
-    geoService.crearMapa($scope);
-
   });
 
 

@@ -1,7 +1,7 @@
 
 var app = angular.module('starter.services', []);
 
-
+var mapa;//La unica manera que he encontrado de modificar la vista del mapa desde el menú(ya que usan distintos controladores) es por var.global
 app.service('geoService', function () {
 
 
@@ -25,14 +25,6 @@ app.service('geoService', function () {
         var INI_LAT = 41.653496;
         var INI_LON = -0.889492;
 
-        $scope.map = L.map('mapa'
-            ,{
-                crs: L.CRS.EPSG3857,
-                layers: ggl
-             }
-        ).setView([$scope.factorias[opcion].latitud, $scope.factorias[opcion].longitud], INIT_ZOOM);
-        $scope.map.attributionControl.setPrefix('');
-        //$scope.map.addLayer(ggl);
 
 
         var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -45,6 +37,17 @@ app.service('geoService', function () {
             "Google Satelite": satelite,
             "Google Hibrida": hybrid
         };
+
+
+        $scope.map = L.map('mapa'
+            ,{
+                crs: L.CRS.EPSG3857,
+                layers: ggl
+            }
+        ).setView([$scope.factorias[opcion].latitud, $scope.factorias[opcion].longitud], INIT_ZOOM);
+        //).setView([674841.1778735404, 4612410.279492892], INIT_ZOOM);
+        $scope.map.attributionControl.setPrefix('');
+        //$scope.map.addLayer(ggl);
         L.control.layers(baseMaps, {}, {position: 'bottomleft'}).addTo($scope.map);
 
 
@@ -72,20 +75,21 @@ app.service('geoService', function () {
 
         //var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/proyecto/wms", {
         var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
-            layers: 'proyecto:csf_1017_00',
+            layers: 'proyecto:csf_1018_',
             format: 'image/png',
             transparent: true,
             version: '1.3.0'
         });
         console.log(mywms);
-        mywms.addTo($scope.map);
+        //mywms.addTo($scope.map);
+        $scope.map.addLayer(mywms);
 
 
-        var geojsonLayer = new L.GeoJSON().addTo($scope.map);
+        /*var geojsonLayer = new L.GeoJSON().addTo($scope.map);
 
         $.ajax({
            // url : "http://geoserver.capecodgis.com/geoserver/capecodgis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=capecodgis:tracts_2010_4326&maxFeatures=2&outputFormat=json&format_options=callback:getJson",
-            url: "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:csf_1017_00,proyecto:csf_1017_01&srsName=epsg:4326&outputFormat=text/javascript&format_options=callback:getJson",
+            url: "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:csf_1018_&srsName=epsg:3857&outputFormat=text/javascript&format_options=callback:getJson",
             dataType : 'jsonp',
             jsonpCallback: 'getJson',
             success: handleJson
@@ -95,22 +99,26 @@ app.service('geoService', function () {
             geojsonLayer.addData(data);
             //$scope.map.addLayer(geojsonLayer);
         }
+*/
 
-
-
+        mapa = $scope.map;
         return $scope.map;
     };
 
     this.localizarZaragoza= function ($scope,miFactoria){
         $scope.factorias = miFactoria.datosMapa;
-        $scope.map.setView(new L.LatLng($scope.factorias.contentItem[0].latitud, $scope.factorias.contentItem[0].longitud), 14);
+        console.log('Cambio vista a: '+ $scope.factorias[0].nombre+$scope.factorias[0].latitud+$scope.factorias[0].longitud);
+        mapa.setView(new L.LatLng($scope.factorias[0].latitud, $scope.factorias[0].longitud), 14);
     };
     this.localizarHuesca= function ($scope,miFactoria){
         $scope.factorias = miFactoria.datosMapa;
-        console.log($scope.factorias[1].nombre+$scope.factorias[1].latitud+$scope.factorias[1].longitud);
-        console.log($scope.mapa);
-        var mapa =$scope.mapa;
-        mapa.setView(new L.LatLng($scope.factorias[1].latitud, $scope.factorias[1].longitud), 14);
+        console.log('Cambio vista a: '+ $scope.factorias[1].nombre+$scope.factorias[1].latitud+$scope.factorias[1].longitud);
+        mapa.setView(new L.LatLng($scope.factorias[1].latitud, $scope.factorias[1].longitud), 16);
+    };
+    this.localizarTeruel= function ($scope,miFactoria){
+        $scope.factorias = miFactoria.datosMapa;
+        console.log('Cambio vista a: '+ $scope.factorias[2].nombre+$scope.factorias[2].latitud+$scope.factorias[2].longitud);
+        mapa.setView(new L.LatLng($scope.factorias[2].latitud, $scope.factorias[2].longitud), 16);
     };
 
 });
