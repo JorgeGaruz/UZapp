@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 
 
@@ -22,18 +25,16 @@ public class ConnectionManager {
 	private final static String DRIVER_CLASS_NAME = "org.postgresql.Driver";
 	private static DataSource datasource ;
 	static {
-		
+
 		try {
-			Class.forName(DRIVER_CLASS_NAME);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(System.err);
-		}
+		Class.forName(DRIVER_CLASS_NAME);
+		Scanner sc = new Scanner(new File("servidor.txt"));
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");
         p.setDriverClassName("org.postgresql.Driver");
-        p.setUsername("prueba");
-        p.setPassword("pruebavm");//contrasena de la BD
+        p.setUsername(sc.next());
+        p.setPassword(sc.next());//contrasena de la BD
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);
         p.setTestOnBorrow(true);
@@ -56,7 +57,12 @@ public class ConnectionManager {
         
         datasource = new DataSource();
         datasource.setPoolProperties(p);
-
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace(System.err);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -76,7 +82,7 @@ public class ConnectionManager {
 	
 	
 	
-	 // Pruebas de conexion
+	 /*// Pruebas de conexion
 	  public static void main(String[] args){
 		Connection c = ConnectionManager.getConnection();
 		String queryString = "SELECT * FROM \"TB_ESPACIOS\"";    
@@ -93,5 +99,5 @@ public class ConnectionManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

@@ -22,6 +22,8 @@
   });
   var opcion;
   var mapa;
+
+
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
@@ -143,16 +145,140 @@
 
       }])
 
-  app.controller('TranslateController', function($translate, $scope) {
-    $scope.changeLanguage = function (langKey) {
-      console.log(langKey);
-      $scope.selectedLanguage = langKey;
-      $scope.translate();
+  app.controller('SearchCtrl', function($scope,$rootScope, GetInfoService) {
+    GetInfoService.getEspacios().then(
+        function (data) {
+          $rootScope.codigoEspacios = data;
+          console.log(data);
+          if (data.length == 0){
+            $rootScope.resultadoCodigoEspacioVacio = true;
+          }
 
-    };
+        }
+    );
+
+    $scope.selectCampus = function(ciudad) {//Cuando selecciono una ciudad, tengo que traerme los campus de dicha ciudad
+        console.log(ciudad);
+        GetInfoService.getCampus(ciudad).then(
+            function (data) {
+              $rootScope.Campus = data;
+              console.log(data);
+              if (data.length == 0){
+                $rootScope.resultadoCampusVacio = true;
+              }
+
+            }
+        );
+
+
+    }
+
+    $scope.selectEdificio = function(campus) {//Cuando selecciono un campus, tengo que traerme los edificios de dicho campus
+      console.log(campus);
+      GetInfoService.getEdificio(campus).then(
+          function (data) {
+            $rootScope.Edificio = data;
+            console.log(data);
+            if (data.length == 0){
+              $rootScope.resultadoEdificioVacio = true;
+            }
+
+          }
+      );
+
+
+    }
   });
 
 })
 
+
 ();
+
+
+/**********************************************************************
+ * FACTORY: Servicio que define todas las llamadas al web service para recoger los datos
+ ***********************************************************************/
+app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) {
+  var URI = 'http://localhost:8080/busquedas';
+  //var URI = 'http://155.210.14.31:8080/busquedas';
+
+  //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
+  var getEspacios = function () {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI + '/codigoespacios',
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEspacioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
+  //Llamada AJAX al web service para recoger los campus segun la ciudad del SELECT de busqueda
+  var getCampus = function (ciudad) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI + '/campus?ciudad='+ciudad,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    console.log(request);
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoCampusError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
+  //Llamada AJAX al web service para recoger los edificios segun el campus del SELECT de busqueda
+  var getEdificio = function (campus) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI + '/edificio?campus='+campus,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    console.log(request);
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEdificioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
+  //Definición de las funciones anteriores para poder ser utilizadas
+  return {
+    getEspacios: getEspacios,
+    getCampus: getCampus,
+    getEdificio: getEdificio
+  };
+});
 

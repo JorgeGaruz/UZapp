@@ -1,0 +1,131 @@
+/* Empty. Add your own CSS if you like */
+html,body {
+    height: 100%;
+    width:100%;
+}
+h1{
+    text-align: center;
+    font-size: 200%;
+}
+/* MENU LATERAL */
+.mymenu {
+    color: #ffffff;
+    background: -webkit-linear-gradient(left, #002040 , #304A64); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #002040 , #304A64); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #002040 , #304A64); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #002040 , #304A64);
+}
+
+/*Set the background to transparent for ion-item*/
+.mymenu .item {
+    padding: 0px 20px 0px 10px;
+    border-style: none;
+
+    background: -webkit-linear-gradient(left, #002040 , #304A64); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #002040 , #304A64); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #002040 , #304A64); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #002040 , #304A64);
+}
+
+.mymenu .item span {
+    margin-left: 25px;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.mymenu .item i {
+    margin-left: 15px;
+    padding: 0px;
+    font-size: 1.2em;
+}
+
+/*Ion-item adds item-complex and an inner div, .item-content*/
+/* this needs to be transparent too, but doesnt need borders*/
+.mymenu .item-complex .item-content, .mymenu .item-radio .item-content {
+    background-color: transparent;
+    padding: 20px 0px 20px 0px;
+}
+
+/*Just makes the type white*/
+.mymenu h2,
+.mymenu h3,
+.mymenu p,
+.mymenu a {
+    color: #ffffff;
+}
+
+#menu-list {
+    margin-top: 40px;
+}
+
+
+/* Splash */
+#splash-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 60px;
+    padding-bottom: 30px;
+}
+
+#splash-div {
+    display: table;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#loading-div {
+    margin-top: 50px;
+}
+
+.entrada{
+    width:100%;
+    height:85%;
+}
+
+#mapa { /*height: 600px;*/
+    width: 98%;
+    height: 98%;
+    border-style: solid;
+    border-width: 1px;
+    margin-left:1%;
+    margin-right:1%;
+    margin-top:1%;
+    margin-bottom:1%;
+
+}
+#texto-popup {
+     text-align: center;
+ }
+
+
+/* Pagina Inicio */
+.logo-wrapper {
+    width: 40%;
+    height: 100%;
+    padding-top: 2%;
+    border-style: solid;
+    border-width: 1px;
+    margin-top:1%;
+    margin-left:30%;
+    margin-right:30%;
+    margin-bottom:1%;
+}
+
+
+#boton{
+    float:right;
+}
+img[usemap] {
+    height: auto;
+    /*max-height:100%;*/
+    max-width: 100%;
+    width: auto;
+}
+#img-logo{
+    height: 10%;
+    width: 20%;
+    margin-top: 1%;
+    margin-bot: 1%;
+    margin-right:40%;
+    margin-left:40%;
+}

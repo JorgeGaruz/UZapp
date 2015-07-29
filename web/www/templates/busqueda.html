@@ -12,11 +12,12 @@
         <div class="input-label" >
           {{translation.SELECCIONAR_CIUDAD}}
         </div>
-        <select class="ion-input-select" ng-model="ciudad" >
+        <select class="ion-input-select" ng-change="selectCampus(ciudad)" ng-model="ciudad" >
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-          <option value="zaragoza">Zaragoza</option>
-          <option value="huesca">Huesca</option>
-          <option value="teruel">Teruel</option>
+          <option value="1">Zaragoza</option>
+          <option value="2">Huesca</option>
+          <option value="3">Teruel</option>
+          <!-- Los datos estan introducidos en el codigo porque no van a cambiar y se evita consultar la BD -->
         </select>
 
       </label>
@@ -25,12 +26,11 @@
         <div class="input-label" >
           {{translation.SELECCIONAR_CAMPUS}}
         </div>
-        <select class="ion-input-select" ng-model="campus" >
+        <select class="ion-input-select" ng-change="selectEdificio(campus)" ng-model="campus" >
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-          <option value="rio_ebro">Rio Ebro</option>
-          <option value="san_francisco">San Francisco</option>
-          <option value="huesca">Huesca</option>
-          <option value="teruel">Teruel</option>
+          <option ng-repeat="camp in Campus"
+                  value="{{camp.ID}}">
+            {{camp.campus}}
         </select>
 
       </label>
@@ -39,11 +39,11 @@
         <div class="input-label" >
           {{translation.SELECCIONAR_EDIFICIO}}
         </div>
-        <select class="ion-input-select" ng-model="edificio" >
+        <select class="ion-input-select" ng-model="campus" >
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-          <option value="ada_byron">Ada Byron</option>
-          <option value="torres_quevedo">Torres Quevedo</option>
-          <option value="betancourt">Betancourt</option>
+          <option ng-repeat="edif in Edificio"
+                  value="{{edif.ID_Edificio}}">
+            {{edif.edificio}}
         </select>
 
       </label>
@@ -74,13 +74,16 @@
 
       </label>
 
-      <label class="item item-input item-select">
+      <label class="item item-input item-select formulario-input">
         <div class="input-label" >
           {{translation.SELECCIONAR_CODIGO_ESPACIO}}
         </div>
-        <select class="ion-input-select" ng-model="ciudad" >
+        <select name="codEspacio" class="ion-input-select" ng-model="codigoEspacios" >
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-          <option value="zaragoza">csf_1018_</option>
+          <option ng-repeat="cod in codigoEspacios"
+                  value="{{cod.ID_espacio}}">
+            {{cod.ID_espacio}}
+          </option>
         </select>
 
       </label>

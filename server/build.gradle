@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'war'
 apply plugin: 'spring-boot'
 
 jar {
@@ -21,11 +22,25 @@ repositories {
     mavenCentral()
 }
 
+war {
+	archiveName = 'ROOT.war'
+	destinationDir = file('warFiles')
+	baseName = 'UZapp'
+	version = '1.0'
+}
+
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+// Soluciona el problema de las tildes y caracteres en UTF-8
+tasks.withType(JavaCompile) {
+  options.encoding = "iso-8859-1"
+}
+
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile 'org.springframework:spring-core:4.1.2.RELEASE'
+	compile 'org.springframework.boot:spring-boot-starter:1.2.2.RELEASE'
+	compile 'org.springframework.boot:spring-boot-starter-web:1.2.3.RELEASE'
     compile "com.google.code.gson:gson:2.3"
     compile 'org.apache.tomcat:tomcat-jdbc:7.0.54'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
