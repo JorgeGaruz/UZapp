@@ -2,6 +2,7 @@
 var app = angular.module('starter.services', []);
 
 var mapa;//La unica manera que he encontrado de modificar la vista del mapa desde el menú(ya que usan distintos controladores) es por var.global
+var edificios = ["csf_1018_","csf_1110_00","csf_1106_00"];
 app.service('geoService', function () {
 
 
@@ -27,12 +28,14 @@ app.service('geoService', function () {
 
 
 
-        var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        /*var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             id: 'OSM'
         });
+        No funciona bien con geoserver y WMS
+        */
 
         var baseMaps = {
-            "OSM": OSM,
+            //"OSM": OSM,
             "Google Roadmap": ggl,
             "Google Satelite": satelite,
             "Google Hibrida": hybrid
@@ -53,8 +56,14 @@ app.service('geoService', function () {
         L.marker([41.647673, -0.887874]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Gran Vía, Facultad Económicas</b><br>C/Doctor Cerrada, 1-3</div>");
 
-        L.marker([41.642305, -0.897683]).addTo($scope.map)
-            .bindPopup("<div class=\"text-center\"><b>Campus San Francisco</b><br>C/Pedro Cerbuna, 12</div>");
+        var html = '<div id="popup" class=\"text-center\"><b>Campus San Francisco</b><br>C/Pedro Cerbuna, 12</div> Seleccionar planta <select class="ion-input-select" ng-change="selectPlano(plantaPopup)" ng-model="plantaPopup" >' +
+        '<option value="1">1</option>'+
+        '<option value="2">2</option>' +
+        '<option value="3">SS</option>' +
+        '</select>';
+
+         L.marker([41.642305, -0.897683]).addTo($scope.map)
+             .bindPopup(html);
 
         L.marker([41.683029, -0.883228]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Rio Ebro, Betancourt</b><br>C/María de Luna, s/n</div>");
@@ -71,9 +80,24 @@ app.service('geoService', function () {
         L.marker([40.351661, -1.110081]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Vicerrectorado Campus Teruel</b><br>C/Ciudad Escolar, s/n</div>");
 
+        //var mywms;
+        for (i=0;i<edificios.length;i++){
+            var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
+                layers: 'proyecto:'+edificios[i],
+                format: 'image/png',
+                transparent: true,
+                version: '1.3.0'
+            });
+            console.log(mywms);
+            $scope.map.addLayer(mywms);
+            /*L.marker([mywms['_map']['layers']['31']['latlng']['lat'], mywms['_map']['_layers']['31']['latlng']['lng']]).addTo($scope.map)
+                .bindPopup("<div class=\"text-center\"><b>HOLA</b></div>");*/
+
+       }
+
 
         //var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/proyecto/wms", {
-        var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
+        /*var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
             layers: 'proyecto:csf_1018_,proyecto:csf_1110_00,proyecto:csf_1106_00',
             format: 'image/png',
             transparent: true,
@@ -81,7 +105,7 @@ app.service('geoService', function () {
         });
         console.log(mywms);
         //mywms.addTo($scope.map);
-        $scope.map.addLayer(mywms);
+        $scope.map.addLayer(mywms);*/
 
 
         /*var geojsonLayer = new L.GeoJSON().addTo($scope.map);
@@ -95,10 +119,50 @@ app.service('geoService', function () {
         });
         function handleJson(data) {
             console.log(data)
-            geojsonLayer.addData(data);
+            //geojsonLayer.addData(data);
             //$scope.map.addLayer(geojsonLayer);
-        }
-*/
+        }*/
+
+        var owsrootUrl = 'http://155.210.14.31:8080/geoserver/ows';
+
+        var defaultParameters = {
+            service : 'WFS',
+            version : '1.0.0',
+            request : 'GetFeature',
+            typeName : 'proyecto:csf_1018_',
+            outputFormat : 'text/javascript',
+            format_options : 'callback:getJson',
+            SrsName : 'EPSG:3857'
+        };
+
+        var parameters = L.Util.extend(defaultParameters);
+        var URL = owsrootUrl + L.Util.getParamString(parameters);
+
+        console.log(URL);
+        var WFSLayer = null;
+        var ajax = $.ajax({
+            url : URL,
+            dataType : 'jsonp',
+            jsonpCallback : 'getJson',
+            success : function (response) {
+                /*WFSLayer = L.geoJson(response, {
+                    style: function (feature) {
+                        return {
+                            stroke: false,
+                            fillColor: 'FFFFFF',
+                            fillOpacity: 0
+                        };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        popupOptions = {maxWidth: 200};
+                        layer.bindPopup("Popup text, access attributes with feature.properties.ATTRIBUTE_NAME"
+                            ,popupOptions);
+                    }
+                }).addTo(map);*/
+                console.log(response);
+            }
+        });
+
 
         mapa = $scope.map;
         return $scope.map;

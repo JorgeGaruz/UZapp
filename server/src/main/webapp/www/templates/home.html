@@ -6,12 +6,12 @@
 
 
   <ion-content >
-    <div class="entrada">
-        <img id ="img-logo" src="img/logo_uz.png" alt="Logo de la Universidad de Zaragoza"> </img>
-       <div class="logo-wrapper">
-            <!--<h1>Seleccione campus a visitar</h1>-->
+      <!--  <div class="entrada">-->
+           <img id ="img-logo" src="img/logo_uz.png" alt="Logo de la Universidad de Zaragoza"> </img>
+           <div class="logo-wrapper">
+
             <img id ="fotoAragon" src="img/Provincias-de-Aragon.jpg" width="100%" usemap="#aragon" alt="Mapa de provincias de Aragon"> </img>
-            <map name="aragon">
+            <map id="mapaAragon" name="aragon">
               <area shape="rect" coords="431,237,559,310" ng-click=" Huesca()" href="#/app/mapa"   title="Huesca" alt="Huesca" />
               <area shape="rect" coords="139,423,310,505" ng-click=" Zaragoza()" href="#/app/mapa" title="Zaragoza" alt="Zaragoza" />
               <area shape="rect" coords="232,700,355,777" ng-click=" Teruel()" href="#/app/mapa" title="Teruel" alt="Teruel" />
@@ -21,23 +21,23 @@
 
 
 
-        </div>
-    </div>
+         </div>
+      <!-- </div>-->
 
-      <script>
-        /*$(document).ready(function(e) {
-          $('img[usemap]').rwdImageMaps();
+       <script>
 
-        });*/
-        /*$(document).ready(function() {
-            $('map').imageMapResize();
-        });*/
+           //$('img[usemap]').rwdImageMaps();
 
-      </script>
+         /*$(document).ready(function() {
+             $('map').imageMapResize();
+         });*/
 
 
+       </script>
 
-  </ion-content>
 
-  
-</ion-view>
+
+   </ion-content>
+
+
+ </ion-view>

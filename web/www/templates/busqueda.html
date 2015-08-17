@@ -39,7 +39,7 @@
         <div class="input-label" >
           {{translation.SELECCIONAR_EDIFICIO}}
         </div>
-        <select class="ion-input-select" ng-model="campus" >
+        <select class="ion-input-select" ng-change="selectPlanta(edificios)" ng-model="edificios" >
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
           <option ng-repeat="edif in Edificio"
                   value="{{edif.ID_Edificio}}">
@@ -54,9 +54,9 @@
       </div>
       <select class="ion-input-select" ng-model="planta" >
         <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
-        <option value="primera">{{translation.PRIMERA}}</option>
-        <option value="segunda">{{translation.SEGUNDA}}</option>
-        <option value="tercera">{{translation.TERCERA}}</option>
+        <option ng-repeat="planta in Planta"
+                value="{{planta}}">
+          {{planta}}
       </select>
 
     </label>
@@ -74,11 +74,14 @@
 
       </label>
 
-      <label class="item item-input item-select formulario-input">
+      <button class="button button-positive" ng-click="busquedaEspacios()">
+        Busqueda por codigo de Espacio
+      </button>
+      <label id="codEspacio" style="display:none" class="item item-input item-select formulario-input">
         <div class="input-label" >
           {{translation.SELECCIONAR_CODIGO_ESPACIO}}
         </div>
-        <select name="codEspacio" class="ion-input-select" ng-model="codigoEspacios" >
+        <select  class="ion-input-select" ng-model="codigoEspacios" >
           <!-- No se añade traduccion a los valores ya que son los mismos sin importar el lenguaje-->
           <option ng-repeat="cod in codigoEspacios"
                   value="{{cod.ID_espacio}}">
@@ -90,13 +93,9 @@
 
     </div>
 
-    <div class="button button-positive btn-wrapper">
-      <a class="button button-block button-stable btn-formulario">
-       <!--  ng-click="search(nombre, apel1, apel2, centro, campus, seccion)"
-         href="#/app/profesoresList">-->
-        {{translation.BUSCAR}}
-      </a>
-    </div>
+    <button class="button button-positive" >
+      {{translation.BUSCAR}}
+    </button>
 
 
   </ion-content>

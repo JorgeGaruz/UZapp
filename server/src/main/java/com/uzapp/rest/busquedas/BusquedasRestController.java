@@ -93,14 +93,15 @@ public class BusquedasRestController {
 		logger.info("Servicio: edificio()");
 		Connection connection = ConnectionManager.getConnection();
 		Gson gson = new Gson();
-		String query = "Select distinct \"ID_EDIFICIO\" , \"EDIFICIO\" from \"TB_EDIFICIOS\" WHERE \"CAMPUS\" = "+campus;
+		String query = "Select distinct \"ID_EDIFICIO\" , \"EDIFICIO\", \"DIRECCION\" from \"TB_EDIFICIOS\" WHERE \"CAMPUS\" = "+campus;
 		System.out.println(query);
 		List<Edificio> resultado = new ArrayList<Edificio>();
 		try {
 			ResultSet respuesta = connection.prepareStatement(query).executeQuery();
 
 			while (respuesta.next()){
-				resultado.add(new Edificio(respuesta.getString("ID_EDIFICIO"),respuesta.getString("EDIFICIO")));
+				String ID_Edificio= respuesta.getString("ID_EDIFICIO");
+				resultado.add(new Edificio(ID_Edificio,respuesta.getString("EDIFICIO"),respuesta.getString("DIRECCION"),obtenerPlantasEdificio(connection,ID_Edificio)));
 			}
 			System.out.println("resultado"+gson.toJson(resultado));
 		} catch (SQLException e) {
@@ -109,6 +110,27 @@ public class BusquedasRestController {
 		}
 		
 		return gson.toJson(resultado);
+		
+	}
+	
+	private static List<String> obtenerPlantasEdificio(Connection connection,String ID_EDIFICIO){
+		String query = "select distinct SUBSTRING(\"ID_UTC\",1,2) as \"Pisos\" from \"TB_ESPACIOS\" where \"ID_EDIFICIO\" = '" + ID_EDIFICIO +"' ORDER BY \"Pisos\" ASC";
+		List<String> plantas = new ArrayList<String>();
+		try {
+			ResultSet respuesta = connection.prepareStatement(query).executeQuery();
+
+			while (respuesta.next()){
+
+				plantas.add(respuesta.getString("Pisos"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return plantas;
 		
 	}
 

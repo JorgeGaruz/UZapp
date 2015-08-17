@@ -58,9 +58,6 @@
         geoService.localizarTeruel($scope.mapa,miFactoria);
       }
     }
-    $scope.myTrigger = function(arg){
-      alert(arg + ' clicked');
-    }
 
   });
 
@@ -69,43 +66,25 @@
    ***********************************************************************/
   app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria) {
 
-    console.log(typeof $scope.mapa);
-    if(!(typeof $scope.mapa == 'undefined')){
-
-      geoService.localizarHuesca($scope,miFactoria);
-    }
     mapa=geoService.crearMapa($scope,miFactoria,opcion);
     console.log(mapa);
 
+    $scope.selectPlano = function(planta) {//Selecciono un plano de la planta seleccionada.
 
-    /*var formatter = new OpenLayers.Format.WMSCapabilities();
-    //var endpoint = "path/to/wms/endpoint";
-    var layers = [];
+      GetInfoService.getCampus(ciudad).then(
+          function (data) {
+            $rootScope.Campus = data;
+            console.log(data);
+            if (data.length == 0){
+              $rootScope.resultadoCampusVacio = true;
+            }
 
-    // async call to geoserver (I'm using angular)
-    $http.get('http://155.210.14.31:8080/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities').
-
-        success(function(data, status, headers, config) {
-
-          // use the tool to parse the data
-          var response = (formatter.read(data));
-
-          console.log(response);
-
-          // this object contains all the GetCapabilities data
-          var capability = response.capability;
-
-          // I want a list of names to use in my queries
-          for(var i = 0; i < capability.layers.length; i ++){
-            layers.push(capability.layers[i].name);
-            console.log(capability.layers[i].name);
           }
-        }).
+      );
+    }
 
-        error(function(data, status, headers, config) {
-          alert("terrible error logging..");
-        });
-*/
+
+
   });
 
 
@@ -146,19 +125,23 @@
       }])
 
   app.controller('SearchCtrl', function($scope,$rootScope, GetInfoService) {
-    GetInfoService.getEspacios().then(
-        function (data) {
-          $rootScope.codigoEspacios = data;
-          console.log(data);
-          if (data.length == 0){
-            $rootScope.resultadoCodigoEspacioVacio = true;
-          }
 
-        }
-    );
+    $scope.busquedaEspacios = function() {
+      GetInfoService.getEspacios().then(
+          function (data) {
+            $rootScope.codigoEspacios = data;
+            console.log(data);
+            if (data.length == 0){
+              $rootScope.resultadoCodigoEspacioVacio = true;
+            }
+
+          }
+      );
+      document.getElementById('codEspacio').style.display= 'block' ;//Para mostar el select con el codigo de espacio después de pulsar el boton y rellenarlo
+    }
 
     $scope.selectCampus = function(ciudad) {//Cuando selecciono una ciudad, tengo que traerme los campus de dicha ciudad
-        console.log(ciudad);
+
         GetInfoService.getCampus(ciudad).then(
             function (data) {
               $rootScope.Campus = data;
@@ -169,12 +152,10 @@
 
             }
         );
-
-
     }
 
     $scope.selectEdificio = function(campus) {//Cuando selecciono un campus, tengo que traerme los edificios de dicho campus
-      console.log(campus);
+
       GetInfoService.getEdificio(campus).then(
           function (data) {
             $rootScope.Edificio = data;
@@ -185,9 +166,18 @@
 
           }
       );
-
-
     }
+
+    $scope.selectPlanta = function(edif) {//Cuando selecciono un edificio, tengo que buscar el numero de plantas de dicho edificio
+
+      for (x=0;x<$rootScope.Edificio.length;x++){
+        if($rootScope.Edificio[x].ID_Edificio==edif){//Saber el edificio selecionado que tenemos que incluir el Select de plantas
+          $rootScope.Planta = $rootScope.Edificio[x].plantas;
+        }
+      }
+    }
+
+
   });
 
 })
@@ -252,6 +242,30 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
 
   //Llamada AJAX al web service para recoger los edificios segun el campus del SELECT de busqueda
   var getEdificio = function (campus) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI + '/edificio?campus='+campus,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    console.log(request);
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEdificioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
+  //Llamada AJAX al web service para recoger el plano segun la planta escogida en el SELECT
+  var getPlano = function (planta) {
     var deferred = $q.defer();
     var request = {
       method: 'GET',

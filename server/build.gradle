@@ -23,20 +23,29 @@ repositories {
 }
 
 war {
-	archiveName = 'ROOT.war'
+	archiveName = 'mapa.war'
 	destinationDir = file('warFiles')
 	baseName = 'UZapp'
 	version = '1.0'
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 // Soluciona el problema de las tildes y caracteres en UTF-8
 tasks.withType(JavaCompile) {
   options.encoding = "iso-8859-1"
 }
 
+configurations.all {//para ser compatible con tomcat7, sacado de http://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-servlet-containers.html#howto-use-tomcat-7
+    resolutionStrategy {
+        eachDependency {
+            if (it.requested.group == 'org.apache.tomcat.embed') {
+                it.useVersion '7.0.59'
+            }
+        }
+    }
+}
 dependencies {
     compile 'org.springframework:spring-core:4.1.2.RELEASE'
 	compile 'org.springframework.boot:spring-boot-starter:1.2.2.RELEASE'
@@ -44,7 +53,9 @@ dependencies {
     compile "com.google.code.gson:gson:2.3"
     compile 'org.apache.tomcat:tomcat-jdbc:7.0.54'
     compile 'org.postgresql:postgresql:9.3-1102-jdbc41'
+    compile 'commons-logging:commons-logging:1.1.1'
     testCompile("junit:junit")
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 task wrapper(type: Wrapper) {
