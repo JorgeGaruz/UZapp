@@ -31,8 +31,8 @@ app.service('geoService', function () {
         /*var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             id: 'OSM'
         });
-        No funciona bien con geoserver y WMS
-        */
+        //No funciona bien con geoserver y WMS
+*/
 
         var baseMaps = {
             //"OSM": OSM,
@@ -49,7 +49,6 @@ app.service('geoService', function () {
             }
         ).setView([$scope.factorias[opcion].latitud, $scope.factorias[opcion].longitud], INIT_ZOOM);
         $scope.map.attributionControl.setPrefix('');
-        //$scope.map.addLayer(ggl);
         L.control.layers(baseMaps, {}, {position: 'bottomleft'}).addTo($scope.map);
 
 
@@ -90,6 +89,7 @@ app.service('geoService', function () {
             });
             console.log(mywms);
             $scope.map.addLayer(mywms);
+            añadirMarcadores($scope,i);
             /*L.marker([mywms['_map']['layers']['31']['latlng']['lat'], mywms['_map']['_layers']['31']['latlng']['lng']]).addTo($scope.map)
                 .bindPopup("<div class=\"text-center\"><b>HOLA</b></div>");*/
 
@@ -108,22 +108,9 @@ app.service('geoService', function () {
         $scope.map.addLayer(mywms);*/
 
 
-        /*var geojsonLayer = new L.GeoJSON().addTo($scope.map);
 
-        $.ajax({
-           // url : "http://geoserver.capecodgis.com/geoserver/capecodgis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=capecodgis:tracts_2010_4326&maxFeatures=2&outputFormat=json&format_options=callback:getJson",
-            url: "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:csf_1018_&srsName=epsg:3857&outputFormat=text/javascript&format_options=callback:getJson",
-            dataType : 'jsonp',
-            jsonpCallback: 'getJson',
-            success: handleJson
-        });
-        function handleJson(data) {
-            console.log(data)
-            //geojsonLayer.addData(data);
-            //$scope.map.addLayer(geojsonLayer);
-        }*/
 
-        var owsrootUrl = 'http://155.210.14.31:8080/geoserver/ows';
+        /*var owsrootUrl = 'http://155.210.14.31:8080/geoserver/ows';
 
         var defaultParameters = {
             service : 'WFS',
@@ -158,15 +145,45 @@ app.service('geoService', function () {
                         layer.bindPopup("Popup text, access attributes with feature.properties.ATTRIBUTE_NAME"
                             ,popupOptions);
                     }
-                }).addTo(map);*/
+                }).addTo(map);
                 console.log(response);
             }
-        });
+        });*/
 
 
         mapa = $scope.map;
         return $scope.map;
     };
+    /*
+    Función encargada de añadir el marcador sobre el edificio para mostrar después la información de dicho edificio
+     */
+    function añadirMarcadores($scope,index){
+        var geojsonLayer = new L.GeoJSON().addTo($scope.map);
+        var url = "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificios[index]+"&srsName=epsg:3857&outputFormat=text/javascript&format_options=callback:getJson"
+        console.log(url);
+        $.ajax({
+            // url : "http://geoserver.capecodgis.com/geoserver/capecodgis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=capecodgis:tracts_2010_4326&maxFeatures=2&outputFormat=json&format_options=callback:getJson",
+            url: url,
+            dataType : 'jsonp',
+            jsonpCallback: 'getJson',
+            success: handleJson
+        });
+        function handleJson(data) {
+            var coordenadas = data.features[0].geometry.coordinates[0][0][0];
+            console.log(coordenadas);
+            var latLng = toLatLng(coordenadas[1], coordenadas[0], $scope.map);
+            console.log(latLng);
+            //geojsonLayer.addData(data);
+            //$scope.map.addLayer(geojsonLayer);
+            L.marker([latLng.lat, latLng.lng]).addTo($scope.map)
+                .bindPopup("hoooooola");
+        }
+    }
+
+    function toLatLng(x, y, map) {
+        var projected = L.point(y, x).divideBy(6378137);
+        return map.options.crs.projection.unproject(projected);
+    }
 
     this.localizarZaragoza= function ($scope,miFactoria){
         $scope.factorias = miFactoria.datosMapa;

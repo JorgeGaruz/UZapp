@@ -190,8 +190,8 @@
  * FACTORY: Servicio que define todas las llamadas al web service para recoger los datos
  ***********************************************************************/
 app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) {
-  //var URI = 'http://localhost:8080/busquedas';
-  var URI = 'http://155.210.14.31:8080/busquedas';
+  var URI = 'http://localhost:8080/busquedas';
+  //var URI = 'http://155.210.14.31:8080/busquedas';
 
   //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
   var getEspacios = function () {

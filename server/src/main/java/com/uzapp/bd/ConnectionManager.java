@@ -28,7 +28,8 @@ public class ConnectionManager {
 
 		try {
 		Class.forName(DRIVER_CLASS_NAME);
-		Scanner sc = new Scanner(new File("servidor.txt"));
+		//Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));
+		Scanner sc = new Scanner(new File("classes/META_INF/bd.txt"));
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");
