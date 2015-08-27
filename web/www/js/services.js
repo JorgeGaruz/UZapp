@@ -2,22 +2,17 @@
 var app = angular.module('starter.services', []);
 
 var mapa;//La unica manera que he encontrado de modificar la vista del mapa desde el menú(ya que usan distintos controladores) es por var.global
-var edificios = ["csf_1018_","csf_1110_00","csf_1106_00"];
+var edificios = ["CSF_1018_","CSF_1110_00","CSF_1106_00"];
 app.service('geoService', function () {
 
 
-    this.crearMapa = function($scope,miFactoria,opcion){
+    this.crearMapa = function($scope,miFactoria,opcion, GetInfoService){
 
-
-
-
-/////////////////////////////////////////////////////////////////////////
-        console.log("alcanzado");
         $scope.factorias = miFactoria.datosMapa;
         var ggl = new L.Google('ROADMAP');
         var satelite = new L.Google('SATELLITE');
         var hybrid = new L.Google('HYBRID');
-       // console.log($scope.lon.toString());
+
         var MIN_ZOOM = 15;
         var INIT_ZOOM = 14;
         var MAX_ZOOM = 15;
@@ -25,8 +20,6 @@ app.service('geoService', function () {
         //Centro ciudad
         var INI_LAT = 41.653496;
         var INI_LON = -0.889492;
-
-
 
         /*var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             id: 'OSM'
@@ -82,74 +75,19 @@ app.service('geoService', function () {
         //var mywms;
         for (i=0;i<edificios.length;i++){
             var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
-                layers: 'proyecto:'+edificios[i],
+                layers: 'proyecto:'+edificios[i].toLowerCase(),
                 format: 'image/png',
                 transparent: true,
                 version: '1.3.0'
             });
-            console.log(mywms);
             $scope.map.addLayer(mywms);
-            añadirMarcadores($scope,i);
+            $( document ).ready(function() {
+                añadirMarcadores($scope,i,GetInfoService)
+            });
             /*L.marker([mywms['_map']['layers']['31']['latlng']['lat'], mywms['_map']['_layers']['31']['latlng']['lng']]).addTo($scope.map)
                 .bindPopup("<div class=\"text-center\"><b>HOLA</b></div>");*/
 
        }
-
-
-        //var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/proyecto/wms", {
-        /*var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
-            layers: 'proyecto:csf_1018_,proyecto:csf_1110_00,proyecto:csf_1106_00',
-            format: 'image/png',
-            transparent: true,
-            version: '1.3.0'
-        });
-        console.log(mywms);
-        //mywms.addTo($scope.map);
-        $scope.map.addLayer(mywms);*/
-
-
-
-
-        /*var owsrootUrl = 'http://155.210.14.31:8080/geoserver/ows';
-
-        var defaultParameters = {
-            service : 'WFS',
-            version : '1.0.0',
-            request : 'GetFeature',
-            typeName : 'proyecto:csf_1018_',
-            outputFormat : 'text/javascript',
-            format_options : 'callback:getJson',
-            SrsName : 'EPSG:3857'
-        };
-
-        var parameters = L.Util.extend(defaultParameters);
-        var URL = owsrootUrl + L.Util.getParamString(parameters);
-
-        console.log(URL);
-        var WFSLayer = null;
-        var ajax = $.ajax({
-            url : URL,
-            dataType : 'jsonp',
-            jsonpCallback : 'getJson',
-            success : function (response) {
-                /*WFSLayer = L.geoJson(response, {
-                    style: function (feature) {
-                        return {
-                            stroke: false,
-                            fillColor: 'FFFFFF',
-                            fillOpacity: 0
-                        };
-                    },
-                    onEachFeature: function (feature, layer) {
-                        popupOptions = {maxWidth: 200};
-                        layer.bindPopup("Popup text, access attributes with feature.properties.ATTRIBUTE_NAME"
-                            ,popupOptions);
-                    }
-                }).addTo(map);
-                console.log(response);
-            }
-        });*/
-
 
         mapa = $scope.map;
         return $scope.map;
@@ -157,32 +95,41 @@ app.service('geoService', function () {
     /*
     Función encargada de añadir el marcador sobre el edificio para mostrar después la información de dicho edificio
      */
-    function añadirMarcadores($scope,index){
-        var geojsonLayer = new L.GeoJSON().addTo($scope.map);
-        var url = "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificios[index]+"&srsName=epsg:3857&outputFormat=text/javascript&format_options=callback:getJson"
+    function añadirMarcadores($scope,index,GetInfoService){
+
+        //var geojsonLayer = new L.GeoJSON().addTo($scope.map);
+        var url = "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificios[index].toLowerCase()+"&srsName=epsg:4326&outputFormat=application/json";
+            //&outputFormat=text/javascript&format_options=callback:getJson"
         console.log(url);
         $.ajax({
-            // url : "http://geoserver.capecodgis.com/geoserver/capecodgis/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=capecodgis:tracts_2010_4326&maxFeatures=2&outputFormat=json&format_options=callback:getJson",
-            url: url,
-            dataType : 'jsonp',
-            jsonpCallback: 'getJson',
+            url : "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificios[index].toLowerCase()+"&srsName=epsg:4326&outputFormat=application/json",
+            dataType : 'json',
             success: handleJson
         });
         function handleJson(data) {
             var coordenadas = data.features[0].geometry.coordinates[0][0][0];
-            console.log(coordenadas);
-            var latLng = toLatLng(coordenadas[1], coordenadas[0], $scope.map);
-            console.log(latLng);
-            //geojsonLayer.addData(data);
-            //$scope.map.addLayer(geojsonLayer);
-            L.marker([latLng.lat, latLng.lng]).addTo($scope.map)
-                .bindPopup("hoooooola");
-        }
-    }
+           GetInfoService.getInfoEdificio(edificios[index].split("_").join(".").substring(0,9)).then(//Para adecuar el edificio a la bd
+                function (dataEdificio) {
+                    if (dataEdificio.length == 0){
+                        $rootScope.resultadoInfoEdificioVacio = true;
+                    }
+                    $scope.descripcion =dataEdificio;
 
-    function toLatLng(x, y, map) {
-        var projected = L.point(y, x).divideBy(6378137);
-        return map.options.crs.projection.unproject(projected);
+                    var edificio = $scope.descripcion[0];
+
+                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> Seleccionar planta <select class="ion-input-select" ng-change="selectPlano(plantaPopup)" ng-model="plantaPopup" >';
+                    for (i=0;i<edificio.plantas.length;i++){//Bucle para cargar en el select todas las plantas
+                        html+='<option value="'+i+'">'+edificio.plantas[i]+'</option>';
+                    }
+                    html+='</select>';
+
+                    L.marker([coordenadas[1], coordenadas[0]]).addTo($scope.map)
+                        .bindPopup(html);
+                }
+
+            );
+
+        }
     }
 
     this.localizarZaragoza= function ($scope,miFactoria){

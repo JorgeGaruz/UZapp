@@ -66,7 +66,7 @@ public class BusquedasRestController {
 		logger.info("Servicio: campus()");
 		Connection connection = ConnectionManager.getConnection();
 		Gson gson = new Gson();
-		String query = "Select distinct \"ID\" , \"CAMPUS\" from \"TB_CODIGOS_DE_CAMPUS\" WHERE \"CIUDAD\" = "+ciudad;
+		String query = "Select distinct \"ID\" , \"CAMPUS\" from \"TB_CODIGOS_DE_CAMPUS\" WHERE \"CIUDAD\" = "+ciudad+" ORDER BY \"CAMPUS\" ASC";
 		System.out.println(query);
 		List<Campus> resultado = new ArrayList<Campus>();
 		try {
@@ -93,7 +93,35 @@ public class BusquedasRestController {
 		logger.info("Servicio: edificio()");
 		Connection connection = ConnectionManager.getConnection();
 		Gson gson = new Gson();
-		String query = "Select distinct \"ID_EDIFICIO\" , \"EDIFICIO\", \"DIRECCION\" from \"TB_EDIFICIOS\" WHERE \"CAMPUS\" = "+campus;
+		String query = "Select distinct \"ID_EDIFICIO\" , \"EDIFICIO\", \"DIRECCION\" from \"TB_EDIFICIOS\" WHERE \"CAMPUS\" = "+campus +" ORDER BY \"EDIFICIO\" ASC";
+		System.out.println(query);
+		List<Edificio> resultado = new ArrayList<Edificio>();
+		try {
+			ResultSet respuesta = connection.prepareStatement(query).executeQuery();
+
+			while (respuesta.next()){
+				String ID_Edificio= respuesta.getString("ID_EDIFICIO");
+				resultado.add(new Edificio(ID_Edificio,respuesta.getString("EDIFICIO"),respuesta.getString("DIRECCION"),obtenerPlantasEdificio(connection,ID_Edificio)));
+			}
+			System.out.println("resultado"+gson.toJson(resultado));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return gson.toJson(resultado);
+		
+	}
+	
+	@RequestMapping(
+			value = "/infoedificio", 
+			method = RequestMethod.GET,
+			produces = "application/json")
+	public String infoEdificio(@RequestParam("edificio") String edificio){
+		logger.info("Servicio: edificio()");
+		Connection connection = ConnectionManager.getConnection();
+		Gson gson = new Gson();
+		String query = "Select distinct \"ID_EDIFICIO\" , \"EDIFICIO\", \"DIRECCION\" from \"TB_EDIFICIOS\" WHERE \"ID_EDIFICIO\" = '"+edificio+"'";
 		System.out.println(query);
 		List<Edificio> resultado = new ArrayList<Edificio>();
 		try {

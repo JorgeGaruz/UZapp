@@ -64,24 +64,17 @@
   /**********************************************************************
    * MapCtrl: Controlador de Leaflet
    ***********************************************************************/
-  app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria) {
+  app.controller('MapCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService) {
 
-    mapa=geoService.crearMapa($scope,miFactoria,opcion);
+    mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
     console.log(mapa);
 
     $scope.selectPlano = function(planta) {//Selecciono un plano de la planta seleccionada.
 
-      GetInfoService.getCampus(ciudad).then(
-          function (data) {
-            $rootScope.Campus = data;
-            console.log(data);
-            if (data.length == 0){
-              $rootScope.resultadoCampusVacio = true;
-            }
 
-          }
-      );
     }
+
+
 
 
 
@@ -191,7 +184,7 @@
  ***********************************************************************/
 app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) {
   var URI = 'http://localhost:8080/busquedas';
-  //var URI = 'http://155.210.14.31:8080/busquedas';
+  //var URI = 'http://155.210.14.31:8080/mapa/busquedas';
 
   //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
   var getEspacios = function () {
@@ -288,11 +281,35 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     return deferred.promise;
   };
 
+  //Llamada AJAX al web service para recoger la informacion del edificio(nombre, direccion y numero de plantas)
+  var getInfoEdificio = function (edificio) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI + '/infoedificio?edificio='+edificio,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEdificioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
   //Definición de las funciones anteriores para poder ser utilizadas
   return {
     getEspacios: getEspacios,
     getCampus: getCampus,
-    getEdificio: getEdificio
+    getEdificio: getEdificio,
+    getInfoEdificio:getInfoEdificio
   };
 });
 

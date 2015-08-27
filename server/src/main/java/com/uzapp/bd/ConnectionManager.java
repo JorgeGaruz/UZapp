@@ -11,10 +11,13 @@ import java.io.FileNotFoundException;
 
 
 
+
 import javax.naming.Context;
 
 
 
+
+import javax.servlet.ServletContext;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -28,8 +31,8 @@ public class ConnectionManager {
 
 		try {
 		Class.forName(DRIVER_CLASS_NAME);
-		//Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));
-		Scanner sc = new Scanner(new File("classes/META_INF/bd.txt"));
+		Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
+		//Scanner sc = new Scanner(new File("WEB-INF/classes/bd.txt"));//Usado en el servidor
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");
