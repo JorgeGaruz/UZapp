@@ -23,12 +23,12 @@ app.service('geoService', function () {
 
         /*var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             id: 'OSM'
-        });
+        });*/
         //No funciona bien con geoserver y WMS
-*/
+
 
         var baseMaps = {
-            //"OSM": OSM,
+           // "OSM": OSM,
             "Google Roadmap": ggl,
             "Google Satelite": satelite,
             "Google Hibrida": hybrid
@@ -48,7 +48,7 @@ app.service('geoService', function () {
         L.marker([41.647673, -0.887874]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Gran Vía, Facultad Económicas</b><br>C/Doctor Cerrada, 1-3</div>");
 
-        var html = '<div id="popup" class=\"text-center\"><b>Campus San Francisco</b><br>C/Pedro Cerbuna, 12</div> Seleccionar planta <select class="ion-input-select" ng-change="selectPlano(plantaPopup)" ng-model="plantaPopup" >' +
+        var html = '<div id="popup" class=\"text-center\"><b>Campus San Francisco</b><br>C/Pedro Cerbuna, 12</div> Seleccionar planta <select id="prueba" class="ion-input-select" onchange="selectPlano(this)" ng-model="plantaPopup" >' +
         '<option value="1">1</option>'+
         '<option value="2">2</option>' +
         '<option value="3">SS</option>' +
@@ -56,6 +56,10 @@ app.service('geoService', function () {
 
          L.marker([41.642305, -0.897683]).addTo($scope.map)
              .bindPopup(html);
+        $('#prueba').change(function() {
+            console.log("select alcanzado");
+        });
+
 
         L.marker([41.683029, -0.883228]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Rio Ebro, Betancourt</b><br>C/María de Luna, s/n</div>");
@@ -117,14 +121,20 @@ app.service('geoService', function () {
 
                     var edificio = $scope.descripcion[0];
 
-                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> Seleccionar planta <select class="ion-input-select" ng-change="selectPlano(plantaPopup)" ng-model="plantaPopup" >';
+                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> Seleccionar planta <select class="ion-input-select" onchange="selectPlano(this)" ng-model="plantaPopup" >';
                     for (i=0;i<edificio.plantas.length;i++){//Bucle para cargar en el select todas las plantas
-                        html+='<option value="'+i+'">'+edificio.plantas[i]+'</option>';
+                        html+='<option value="'+edificio.plantas[i]+'">'+edificio.plantas[i]+'</option>';
                     }
                     html+='</select>';
 
                     L.marker([coordenadas[1], coordenadas[0]]).addTo($scope.map)
                         .bindPopup(html);
+                    /*var popupElement = $('#select'); // grab the element (make sure that it exists in the DOM)
+                    popupElement = $compile(popupElement)($scope); // let angular know about it*/
+
+                    $('#'+edificios[index].toLowerCase()).change(function() {
+                        console.log("select alcanzado");
+                    });
                 }
 
             );
@@ -147,5 +157,25 @@ app.service('geoService', function () {
         console.log('Cambio vista a: '+ $scope.factorias[2].nombre+$scope.factorias[2].latitud+$scope.factorias[2].longitud);
         mapa.setView(new L.LatLng($scope.factorias[2].latitud, $scope.factorias[2].longitud), 16);
     };
+    this.crearPlano= function ($scope){
+        $scope.plan = L.map('plan');
+        /*var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
+            layers: 'proyecto:CSF_1110_00',
+            format: 'image/png',
+            transparent: true,
+            version: '1.3.0'
+        });
+        console.log(mywms);
+        $scope.plan.addLayer(mywms);*/
+        $.ajax({
+            url : "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:csf_1110_00&srsName=epsg:4326&outputFormat=application/json",
+            dataType : 'json',
+            success: handleJson
+        });
+        function handleJson(data) {
+            console.log(data);
+            L.geoJson(data).addTo($scope.plan);
+        }
+    }
 
 });

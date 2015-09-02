@@ -59,6 +59,8 @@
       }
     }
 
+
+
   });
 
   /**********************************************************************
@@ -70,13 +72,20 @@
     console.log(mapa);
 
     $scope.selectPlano = function(planta) {//Selecciono un plano de la planta seleccionada.
-
-
+      console.log("alcanzado");
+      window.location = "templates/plano.html"
     }
 
+  });
 
+  /**********************************************************************
+   * PlanCtrl: Controlador del plano del edificio en  Leaflet
+   ***********************************************************************/
+  app.controller('PlanCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService) {
 
-
+    /*mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
+    console.log(mapa);*/
+    geoService.crearPlano($scope);
 
   });
 

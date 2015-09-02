@@ -124,6 +124,8 @@ L.Google = L.Class.extend({
 
 		google.maps.event.addListenerOnce(map, 'idle',
 			function() { _this._checkZoomLevels(); });
+		google.maps.event.addListenerOnce(map, 'tilesloaded',
+			function() { _this.fire('load'); });
 		//Reporting that map-object was initialized.
 		this.fire('MapObjectInitialized', { mapObject: map });
 	},
@@ -162,7 +164,7 @@ L.Google = L.Class.extend({
 	_resize: function() {
 		var size = this._map.getSize();
 		if (this._container.style.width === size.x &&
-				this._container.style.height === size.y)
+			this._container.style.height === size.y)
 			return;
 		this.setElementSize(this._container, size);
 		this.onReposition();

@@ -3,7 +3,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'angularSlideables','ngResource','ngRoute'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'angularSlideables','ngResource','ngRoute','leaflet-directive'])
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -70,6 +70,15 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
                 controller: 'AppCtrl'
               }
             }
+          })
+          .state('app.plano', {
+              url: "/plano",
+              views: {
+                  'menuContent':{
+                      templateUrl: "templates/plano.html"
+                      //controller: 'AppCtrl'
+                  }
+              }
           })
           //Manera más simple de distinguir entre enfocar una ciudad u otra en el mapa
           .state('app.mapa', {
