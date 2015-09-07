@@ -46,11 +46,11 @@ public class ConnectionManager {
         p.setTestOnReturn(false);
         p.setValidationInterval(30000);
         p.setTimeBetweenEvictionRunsMillis(30000);
-        p.setMaxActive(20);
+        p.setMaxActive(500);
         p.setInitialSize(10);
         p.setMaxWait(5000);
-        p.setMaxIdle(10);
-        p.setRemoveAbandonedTimeout(60);
+        p.setMaxIdle(30);
+        p.setRemoveAbandonedTimeout(30);
         p.setMinEvictableIdleTimeMillis(30000);
         p.setMinIdle(10);
         p.setLogAbandoned(true);

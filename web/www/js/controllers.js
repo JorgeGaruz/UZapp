@@ -83,9 +83,9 @@
    ***********************************************************************/
   app.controller('PlanCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService) {
 
-    /*mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
-    console.log(mapa);*/
-    geoService.crearPlano($scope);
+    //mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
+    console.log(mapa);
+    geoService.crearPlano($scope,$http, GetInfoService);
 
   });
 
@@ -192,15 +192,17 @@
  * FACTORY: Servicio que define todas las llamadas al web service para recoger los datos
  ***********************************************************************/
 app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) {
-  var URI = 'http://localhost:8080/busquedas';
-  //var URI = 'http://155.210.14.31:8080/mapa/busquedas';
+  var URI_busquedas = 'http://localhost:8080/busquedas';
+  var URI_estancias = 'http://localhost:8080/estancias';
+  //var URI_busquedas = 'http://155.210.14.31:8080/mapa/busquedas';
+  //var URI_busquedas = 'http://155.210.14.31:8080/mapa/estancias';
 
   //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
   var getEspacios = function () {
     var deferred = $q.defer();
     var request = {
       method: 'GET',
-      url: URI + '/codigoespacios',
+      url: URI_busquedas + '/codigoespacios',
       contentType: 'application/json',
       dataType: "json"
     };
@@ -223,7 +225,7 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     var deferred = $q.defer();
     var request = {
       method: 'GET',
-      url: URI + '/campus?ciudad='+ciudad,
+      url: URI_busquedas + '/campus?ciudad='+ciudad,
       contentType: 'application/json',
       dataType: "json"
     };
@@ -247,7 +249,7 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     var deferred = $q.defer();
     var request = {
       method: 'GET',
-      url: URI + '/edificio?campus='+campus,
+      url: URI_busquedas + '/edificio?campus='+campus,
       contentType: 'application/json',
       dataType: "json"
     };
@@ -295,7 +297,29 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     var deferred = $q.defer();
     var request = {
       method: 'GET',
-      url: URI + '/infoedificio?edificio='+edificio,
+      url: URI_busquedas + '/infoedificio?edificio='+edificio,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEdificioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
+  var getInfoEstancia = function (estancia) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI_estancias + '/id_estancia?estancia='+estancia,
       contentType: 'application/json',
       dataType: "json"
     };
@@ -318,7 +342,8 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     getEspacios: getEspacios,
     getCampus: getCampus,
     getEdificio: getEdificio,
-    getInfoEdificio:getInfoEdificio
+    getInfoEdificio:getInfoEdificio,
+    getInfoEstancia:getInfoEstancia
   };
 });
 

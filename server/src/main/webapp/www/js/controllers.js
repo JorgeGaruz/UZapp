@@ -59,6 +59,8 @@
       }
     }
 
+
+
   });
 
   /**********************************************************************
@@ -70,13 +72,20 @@
     console.log(mapa);
 
     $scope.selectPlano = function(planta) {//Selecciono un plano de la planta seleccionada.
-
-
+      console.log("alcanzado");
+      window.location = "templates/plano.html"
     }
 
+  });
 
+  /**********************************************************************
+   * PlanCtrl: Controlador del plano del edificio en  Leaflet
+   ***********************************************************************/
+  app.controller('PlanCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService) {
 
-
+    //mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
+    console.log(mapa);
+    geoService.crearPlano($scope,$http);
 
   });
 
@@ -184,7 +193,7 @@
  ***********************************************************************/
 app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) {
   //var URI = 'http://localhost:8080/busquedas';
-   var URI = 'http://155.210.14.31:8080/mapa/busquedas';
+  var URI = 'http://155.210.14.31:8080/mapa/busquedas';
 
   //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
   var getEspacios = function () {

@@ -71,6 +71,15 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
               }
             }
           })
+          .state('app.plano', {
+              url: "/plano",
+              views: {
+                  'menuContent':{
+                      templateUrl: "templates/plano.html"
+                      //controller: 'AppCtrl'
+                  }
+              }
+          })
           //Manera más simple de distinguir entre enfocar una ciudad u otra en el mapa
           .state('app.mapa', {
               url: "/mapa",

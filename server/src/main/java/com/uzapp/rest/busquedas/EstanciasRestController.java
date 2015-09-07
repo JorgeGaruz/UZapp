@@ -1,0 +1,59 @@
+package com.uzapp.rest.busquedas;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+import com.uzapp.bd.ConnectionManager;
+import com.uzapp.dominio.Campus;
+import com.uzapp.dominio.Edificio;
+import com.uzapp.dominio.Espacios;
+
+@RestController
+@RequestMapping("/estancias")
+public class EstanciasRestController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EstanciasRestController.class);
+	
+	@RequestMapping(
+			value = "/id_estancia", 
+			method = RequestMethod.GET,
+			produces = "application/json")
+	public String infoEstancia(@RequestParam("estancia") String estancia){
+		logger.info("Servicio: infoEstancia()");
+		Connection connection = ConnectionManager.getConnection();
+		Gson gson = new Gson();
+		String query = "Select distinct \"ID_ESPACIO\" ,\"ID_CENTRO\" from \"TB_ESPACIOS\" WHERE \"ID_ESPACIO\" = '"+estancia+"'";
+		System.out.println(query);
+		Espacios resultado;
+		try {
+			ResultSet respuesta = connection.prepareStatement(query).executeQuery();
+
+			if (respuesta.next()){
+				resultado=new Espacios(respuesta.getString("ID_ESPACIO"),respuesta.getString("ID_CENTRO"));
+				System.out.println("resultado"+gson.toJson(resultado));
+				return gson.toJson(resultado);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+		
+	}
+
+}

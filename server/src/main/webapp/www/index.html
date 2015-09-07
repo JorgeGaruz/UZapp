@@ -29,7 +29,7 @@
     <!--<script src="cordova.js"></script>-->
     <!-- your app's js -->
     <script src="js/factories.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/bower-angular-translate/2.0.1/angular-translate.min.js"></script>
+    <script src="lib/angular-translate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.3.js"></script>
     <script src="lib/imageMapResizer.min.js"></script>
@@ -42,10 +42,24 @@
     <script src="js/angularTranslateService.js"></script>
     <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
     <script src="leaflet-plugins-master\layer\tile\Google.js"></script>
-    <script src="leaflet-plugins-master\layer\vector\OSM.js"></script>
+    <script src="js/L.TileLayer.BetterWMS.js"></script>
+
+    <!-- Librerias para geolocalizar al usuario-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="lib/L.Control.Locate.min.css" />
+    <script src="lib/L.Control.Locate.min.js" ></script>
 
 </head>
 <body ng-app="starter" ng-controller="TranslationCtrl">
 <ion-nav-view ></ion-nav-view>
 </body>
+<script>
+/* Necesario hacerlo de esta manera ya que no se puede añadir codigo de angularJS dentro de un marcador de leaflet
+*  la posible alternativa era usar el plugin angular-leaflet-directive pero requeria cambiar toda la parte de leaflet
+*  y no aseguraba su correcto funcionamiento.
+*/
+    function selectPlano(planta){//Selecciono un plano de la planta seleccionada.
+    console.log("alcanzado "+planta.value);
+    window.location = "#/app/plano";
+}</script>
 </html>

@@ -44,6 +44,7 @@ app.service('geoService', function () {
         $scope.map.attributionControl.setPrefix('');
         L.control.layers(baseMaps, {}, {position: 'bottomleft'}).addTo($scope.map);
 
+        L.control.locate().addTo($scope.map);
 
         L.marker([41.647673, -0.887874]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Gran Vía, Facultad Económicas</b><br>C/Doctor Cerrada, 1-3</div>");
@@ -78,7 +79,7 @@ app.service('geoService', function () {
 
         //var mywms;
         for (i=0;i<edificios.length;i++){
-            var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
+            var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {//Seria interesante probar con L.tileLayer.betterWMS
                 layers: 'proyecto:'+edificios[i].toLowerCase(),
                 format: 'image/png',
                 transparent: true,
@@ -101,10 +102,6 @@ app.service('geoService', function () {
      */
     function añadirMarcadores($scope,index,GetInfoService){
 
-        //var geojsonLayer = new L.GeoJSON().addTo($scope.map);
-        var url = "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificios[index].toLowerCase()+"&srsName=epsg:4326&outputFormat=application/json";
-            //&outputFormat=text/javascript&format_options=callback:getJson"
-        console.log(url);
         $.ajax({
             url : "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificios[index].toLowerCase()+"&srsName=epsg:4326&outputFormat=application/json",
             dataType : 'json',
@@ -123,7 +120,7 @@ app.service('geoService', function () {
 
                     var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> Seleccionar planta <select class="ion-input-select" onchange="selectPlano(this)" ng-model="plantaPopup" >';
                     for (i=0;i<edificio.plantas.length;i++){//Bucle para cargar en el select todas las plantas
-                        html+='<option value="'+edificio.plantas[i]+'">'+edificio.plantas[i]+'</option>';
+                        html+='<option value="'+edificios[index].substring(0,9)+edificio.plantas[i]+'">'+edificio.plantas[i]+'</option>';
                     }
                     html+='</select>';
 
@@ -157,24 +154,66 @@ app.service('geoService', function () {
         console.log('Cambio vista a: '+ $scope.factorias[2].nombre+$scope.factorias[2].latitud+$scope.factorias[2].longitud);
         mapa.setView(new L.LatLng($scope.factorias[2].latitud, $scope.factorias[2].longitud), 16);
     };
-    this.crearPlano= function ($scope){
-        $scope.plan = L.map('plan');
-        /*var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {
-            layers: 'proyecto:CSF_1110_00',
-            format: 'image/png',
-            transparent: true,
-            version: '1.3.0'
-        });
-        console.log(mywms);
-        $scope.plan.addLayer(mywms);*/
-        $.ajax({
-            url : "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:csf_1110_00&srsName=epsg:4326&outputFormat=application/json",
+    this.crearPlano= function ($scope,$http, GetInfoService){
+        var edificio=localStorage.planta;
+       $.ajax({
+            url : "http://155.210.14.31:8080/geoserver/proyecto/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=proyecto:"+edificio.toLowerCase()+"&srsName=epsg:4326&outputFormat=application/json",
             dataType : 'json',
             success: handleJson
         });
         function handleJson(data) {
-            console.log(data);
-            L.geoJson(data).addTo($scope.plan);
+            //console.log(data);
+            var coordenadas = data.features[0].geometry.coordinates[0][0][0];
+            $scope.plan = L.map('plan').setView([coordenadas[1],coordenadas[0]],20);
+
+            L.geoJson(data,{onEachFeature: onEachFeature}).addTo($scope.plan);
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                click: whenClicked
+            });
+            /*if (feature.properties && feature.properties.et_id) {
+                var id = feature.properties.et_id;
+
+                GetInfoService.getInfoEstancia(id).then(
+                    function (data) {
+                        $scope.infoEstancia = data;
+                       // console.log(data);
+                        if (data.length == 0) {
+                            $rootScope.resultadoEstanciaVacio = true;
+                        }
+                        console.log($scope.infoEstancia);
+                        layer.bindPopup($scope.infoEstancia.ID_espacio + " " + $scope.infoEstancia.ID_centro);
+                    }
+                );
+
+            }*/
+        }
+        function whenClicked(e) {
+
+            console.log(e);
+            var id = e.target.feature.properties.et_id;
+
+            GetInfoService.getInfoEstancia(id).then(
+                function (data) {
+                    $scope.infoEstancia = data;
+                    // console.log(data);
+                    if (data.length == 0) {
+                        $rootScope.resultadoEstanciaVacio = true;
+                    }
+                    console.log($scope.infoEstancia);
+                    e.layer.bindPopup(data.ID_espacio + " " + data.ID_centro);
+                }
+            );
+
+        }
+
+        function onEachFeature(feature, layer) {
+            //bind click
+            layer.on({
+                click: whenClicked
+            });
         }
     }
 
