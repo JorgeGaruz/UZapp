@@ -126,13 +126,32 @@
 
       }])
 
+  app.controller('EstanciaCtrl', function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService){
+    var estancia=localStorage.estancia;
+
+    GetInfoService.getEstancia(estancia).then(
+        function (data) {
+          $scope.infoEstancia = data;
+           console.log(data);
+          if (data.length == 0) {
+            $scope.resultadoEstanciaVacio = true;
+          }
+          angular.element(document.querySelector('#dato_estancia')).html(data.ID_espacio);
+          angular.element(document.querySelector('#nombre_estancia')).html(data.ID_centro);
+          angular.element(document.querySelector('#tipo_estancia')).html(data.tipo_uso);
+          angular.element(document.querySelector('#superficie_estancia')).html(data.superficie);
+        }
+    );
+  })
+
+
   app.controller('SearchCtrl', function($scope,$rootScope, GetInfoService) {
 
     $scope.busquedaEspacios = function() {
       GetInfoService.getEspacios().then(
           function (data) {
             $rootScope.codigoEspacios = data;
-            console.log(data);
+            //console.log(data);
             if (data.length == 0){
               $rootScope.resultadoCodigoEspacioVacio = true;
             }
@@ -195,7 +214,7 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
   var URI_busquedas = 'http://localhost:8080/busquedas';
   var URI_estancias = 'http://localhost:8080/estancias';
   //var URI_busquedas = 'http://155.210.14.31:8080/mapa/busquedas';
-  //var URI_busquedas = 'http://155.210.14.31:8080/mapa/estancias';
+  //var URI_estancias = 'http://155.210.14.31:8080/mapa/estancias';
 
   //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
   var getEspacios = function () {
@@ -337,13 +356,36 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     return deferred.promise;
   };
 
+  var getEstancia = function (estancia) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI_estancias + '/getEstancia?estancia='+estancia,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEdificioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
   //Definición de las funciones anteriores para poder ser utilizadas
   return {
     getEspacios: getEspacios,
     getCampus: getCampus,
     getEdificio: getEdificio,
     getInfoEdificio:getInfoEdificio,
-    getInfoEstancia:getInfoEstancia
+    getInfoEstancia:getInfoEstancia,
+    getEstancia:getEstancia
   };
 });
 

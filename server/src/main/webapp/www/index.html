@@ -16,15 +16,14 @@
 
     <script data-require="angular-resource@1.2.14" data-semver="1.2.14" src="http://code.angularjs.org/1.2.14/angular-resource.js"></script>
 
-    <!-- leaflet library -->
+    <!-- leaflet library-->
     <script src="leaflet/leaflet.js"></script>
     <link rel="stylesheet" href="leaflet/leaflet.css" />
 
-    <!--  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-     <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script> /> -->
+    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>-->
 
 
-     <!-- <script src="leaflet/leaflet.js"></script>-->
     <!-- cordova script (this will be a 404 during development) -->
     <!--<script src="cordova.js"></script>-->
     <!-- your app's js -->
@@ -49,6 +48,11 @@
     <link rel="stylesheet" href="lib/L.Control.Locate.min.css" />
     <script src="lib/L.Control.Locate.min.js" ></script>
 
+    <!-- libreria para buscar marcadores-->
+    <link rel="stylesheet" href="lib/leaflet-search.mobile.src.css" >
+    <link rel="stylesheet" href="lib/leaflet-search.src.css" />
+    <script src="lib/leaflet-search.src.js" ></script>
+
 </head>
 <body ng-app="starter" ng-controller="TranslationCtrl">
 <ion-nav-view ></ion-nav-view>
@@ -58,8 +62,14 @@
 *  la posible alternativa era usar el plugin angular-leaflet-directive pero requeria cambiar toda la parte de leaflet
 *  y no aseguraba su correcto funcionamiento.
 */
-    function selectPlano(planta){//Selecciono un plano de la planta seleccionada.
-    console.log("alcanzado "+planta.value);
-    window.location = "#/app/plano";
+    function selectPlano(planta) {//Selecciono un plano de la planta seleccionada.
+        console.log("alcanzado " + planta.value);
+        localStorage.planta = planta.value;
+        window.location = "#/app/plano";
+    }
+        function informacionEstancia(estancia){//Selecciono un plano de la planta seleccionada.
+            console.log(estancia.value);
+            localStorage.estancia = estancia.value;
+            window.location = "#/app/estancia";
 }</script>
 </html>

@@ -14474,11 +14474,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    *
    * @description
    * Retrieves or overrides the default regular expression that is used for whitelisting of safe
-   * urls during img[src] sanitization.
+   * urls during images[src] sanitization.
    *
    * The sanitization is a security measure aimed at prevent XSS attacks via html links.
    *
-   * Any url about to be assigned to img[src] via data-binding is first normalized and turned into
+   * Any url about to be assigned to images[src] via data-binding is first normalized and turned into
    * an absolute url. Afterwards, the url is matched against the `imgSrcSanitizationWhitelist`
    * regular expression. If a match is found, the original url is written into the dom. Otherwise,
    * the absolute url is prefixed with `'unsafe:'` string and only then is it written into the DOM.
@@ -14669,11 +14669,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         nodeName = nodeName_(this.$$element);
 
         if ((nodeName === 'a' && key === 'href') ||
-            (nodeName === 'img' && key === 'src')) {
-          // sanitize a[href] and img[src] values
+            (nodeName === 'images' && key === 'src')) {
+          // sanitize a[href] and images[src] values
           this[key] = value = $$sanitizeUri(value, key === 'src');
-        } else if (nodeName === 'img' && key === 'srcset') {
-          // sanitize img[srcset] values
+        } else if (nodeName === 'images' && key === 'srcset') {
+          // sanitize images[srcset] values
           var result = "";
 
           // first check if there are spaces because it's not the same pattern
@@ -15973,7 +15973,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       // maction[xlink:href] can source SVG.  It's not limited to <maction>.
       if (attrNormalizedName == "xlinkHref" ||
           (tag == "form" && attrNormalizedName == "action") ||
-          (tag != "img" && (attrNormalizedName == "src" ||
+          (tag != "images" && (attrNormalizedName == "src" ||
                             attrNormalizedName == "ngSrc"))) {
         return $sce.RESOURCE_URL;
       }
@@ -22761,11 +22761,11 @@ function $$SanitizeUriProvider() {
   /**
    * @description
    * Retrieves or overrides the default regular expression that is used for whitelisting of safe
-   * urls during img[src] sanitization.
+   * urls during images[src] sanitization.
    *
    * The sanitization is a security measure aimed at prevent XSS attacks via html links.
    *
-   * Any url about to be assigned to img[src] via data-binding is first normalized and turned into
+   * Any url about to be assigned to images[src] via data-binding is first normalized and turned into
    * an absolute url. Afterwards, the url is matched against the `imgSrcSanitizationWhitelist`
    * regular expression. If a match is found, the original url is written into the dom. Otherwise,
    * the absolute url is prefixed with `'unsafe:'` string and only then is it written into the DOM.
@@ -23288,7 +23288,7 @@ function $SceDelegateProvider() {
  * call `$sce.trustAs` on them (remember to include the `ngSanitize` module) (e.g.
  * `<div ng-bind-html="'<b>implicitly trusted</b>'"></div>`) just works.
  *
- * Additionally, `a[href]` and `img[src]` automatically sanitize their URLs and do not pass them
+ * Additionally, `a[href]` and `images[src]` automatically sanitize their URLs and do not pass them
  * through {@link ng.$sce#getTrusted $sce.getTrusted}.  SCE doesn't play a role here.
  *
  * The included {@link ng.$sceDelegate $sceDelegate} comes with sane defaults to allow you to load
@@ -23309,7 +23309,7 @@ function $SceDelegateProvider() {
  * |---------------------|----------------|
  * | `$sce.HTML`         | For HTML that's safe to source into the application.  The {@link ng.directive:ngBindHtml ngBindHtml} directive uses this context for bindings. If an unsafe value is encountered and the {@link ngSanitize $sanitize} module is present this will sanitize the value instead of throwing an error. |
  * | `$sce.CSS`          | For CSS that's safe to source into the application.  Currently unused.  Feel free to use it in your own directives. |
- * | `$sce.URL`          | For URLs that are safe to follow as links.  Currently unused (`<a href=` and `<img src=` sanitize their urls and don't constitute an SCE context. |
+ * | `$sce.URL`          | For URLs that are safe to follow as links.  Currently unused (`<a href=` and `<images src=` sanitize their urls and don't constitute an SCE context. |
  * | `$sce.RESOURCE_URL` | For URLs that are not only safe to follow as links, but whose contents are also safe to include in your application.  Examples include `ng-include`, `src` / `ngSrc` bindings for tags other than `IMG` (e.g. `IFRAME`, `OBJECT`, etc.)  <br><br>Note that `$sce.RESOURCE_URL` makes a stronger statement about the URL than `$sce.URL` does and therefore contexts requiring values trusted for `$sce.RESOURCE_URL` can be used anywhere that values trusted for `$sce.URL` are required. |
  * | `$sce.JS`           | For JavaScript that is safe to execute in your application's context.  Currently unused.  Feel free to use it in your own directives. |
  *
@@ -24223,8 +24223,8 @@ var originUrl = urlResolve(window.location.href);
  *
  * IE7 does not normalize the URL when assigned to an anchor node.  (Apparently, it does, if one
  * uses the inner HTML approach to assign the URL as part of an HTML snippet -
- * http://stackoverflow.com/a/472729)  However, setting img[src] does normalize the URL.
- * Unfortunately, setting img[src] to something like "javascript:foo" on IE throws an exception.
+ * http://stackoverflow.com/a/472729)  However, setting images[src] does normalize the URL.
+ * Unfortunately, setting images[src] to something like "javascript:foo" on IE throws an exception.
  * Since the primary usage for normalizing URLs is to sanitize such URLs, we can't use that
  * method and IE < 8 is unsupported.
  *
@@ -25733,12 +25733,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The buggy way to write it:
  * ```html
- * <img src="http://www.gravatar.com/avatar/{{hash}}"/>
+ * <images src="http://www.gravatar.com/avatar/{{hash}}"/>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <img ng-src="http://www.gravatar.com/avatar/{{hash}}"/>
+ * <images ng-src="http://www.gravatar.com/avatar/{{hash}}"/>
  * ```
  *
  * @element IMG
@@ -25759,12 +25759,12 @@ var htmlAnchorDirective = valueFn({
  *
  * The buggy way to write it:
  * ```html
- * <img srcset="http://www.gravatar.com/avatar/{{hash}} 2x"/>
+ * <images srcset="http://www.gravatar.com/avatar/{{hash}} 2x"/>
  * ```
  *
  * The correct way to write it:
  * ```html
- * <img ng-srcset="http://www.gravatar.com/avatar/{{hash}} 2x"/>
+ * <images ng-srcset="http://www.gravatar.com/avatar/{{hash}} 2x"/>
  * ```
  *
  * @element IMG
@@ -36386,7 +36386,7 @@ var START_TAG_REGEXP =
 
 // Safe Void Elements - HTML5
 // http://dev.w3.org/html5/spec/Overview.html#void-elements
-var voidElements = makeMap("area,br,col,hr,img,wbr");
+var voidElements = makeMap("area,br,col,hr,images,wbr");
 
 // Elements that you can, intentionally, leave open (and which close themselves)
 // http://dev.w3.org/html5/spec/Overview.html#optional-tags
@@ -36403,7 +36403,7 @@ var blockElements = angular.extend({}, optionalEndTagBlockElements, makeMap("add
 
 // Inline Elements - HTML5
 var inlineElements = angular.extend({}, optionalEndTagInlineElements, makeMap("a,abbr,acronym,b," +
-        "bdi,bdo,big,br,cite,code,del,dfn,em,font,i,img,ins,kbd,label,map,mark,q,ruby,rp,rt,s," +
+        "bdi,bdo,big,br,cite,code,del,dfn,em,font,i,images,ins,kbd,label,map,mark,q,ruby,rp,rt,s," +
         "samp,small,span,strike,strong,sub,sup,time,tt,u,var"));
 
 // SVG Elements
@@ -36697,7 +36697,7 @@ function htmlSanitizeWriter(buf, uriValidator) {
         out(tag);
         angular.forEach(attrs, function(value, key) {
           var lkey=angular.lowercase(key);
-          var isImage = (tag === 'img' && lkey === 'src') || (lkey === 'background');
+          var isImage = (tag === 'images' && lkey === 'src') || (lkey === 'background');
           if (validAttrs[lkey] === true &&
             (uriAttrs[lkey] !== true || uriValidator(value, isImage))) {
             out(' ');
@@ -39857,7 +39857,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      *   };
      * });
      * </pre>
-     * <img src='../ngdoc_assets/StateGoExamples.png'/>
+     * <images src='../ngdoc_assets/StateGoExamples.png'/>
      *
      * @param {string} to Absolute state name or relative state path. Some examples:
      *
@@ -49348,7 +49348,7 @@ IonicModule
  *
  * **Performance Tips**:
  *
- * - The iOS webview has a performance bottleneck when switching out `<img src>` attributes.
+ * - The iOS webview has a performance bottleneck when switching out `<images src>` attributes.
  *   To increase performance of images on iOS, cache your images in advance and,
  *   if possible, lower the number of unique images. We're working on [a solution](https://github.com/driftyco/ionic/issues/3194).
  *
@@ -49365,7 +49365,7 @@ IonicModule
  * #### Grid of Images ([codepen](http://codepen.io/ionic/pen/5515d4efd9d66f780e96787387f41664))
  * ```html
  * <ion-content>
- *   <img collection-repeat="photo in photos"
+ *   <images collection-repeat="photo in photos"
  *     item-width="33%"
  *     item-height="200px"
  *     ng-src="{% raw %}{{photo.url}}{% endraw %}">
@@ -49379,7 +49379,7 @@ IonicModule
  *   <ion-scroll direction="x" class="available-scroller">
  *     <div class="photo" collection-repeat="photo in main.photos"
  *        item-height="250" item-width="photo.width + 30">
- *        <img ng-src="{{photo.src}}">
+ *        <images ng-src="{{photo.src}}">
  *     </div>
  *   </ion-scroll>
  * </ion-content>
@@ -50049,7 +50049,7 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
         self.node.style.cssText += ' height: 0px; width: 0px;';
         ionic.Utils.disconnectScope(self.scope);
         containerNode.appendChild(self.node);
-        self.images = clone[0].getElementsByTagName('img');
+        self.images = clone[0].getElementsByTagName('images');
       });
     }
 
@@ -51543,7 +51543,7 @@ function keyboardAttachGetClientHeight(element) {
 *   <ion-item ng-repeat="item in items"
 *             class="item-thumbnail-left">
 *
-*     {% raw %}<img ng-src="{{item.img}}">
+*     {% raw %}<images ng-src="{{item.images}}">
 *     <h2>{{item.title}}</h2>
 *     <p>{{item.description}}</p>{% endraw %}
 *     <ion-option-button class="button-positive"
@@ -52164,7 +52164,7 @@ IonicModule
  * <ion-nav-view>
  *   <ion-view>
  *     <ion-nav-title>
- *       <img src="logo.svg">
+ *       <images src="logo.svg">
  *     </ion-nav-title>
  *     <ion-content>
  *       Some super content here!

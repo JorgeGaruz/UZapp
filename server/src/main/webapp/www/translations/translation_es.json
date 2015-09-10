@@ -1,6 +1,7 @@
 {
   "INICIO":"Inicio",
   "BUSQUEDA":"Busqueda",
+  "BUSQUEDAAVANZADA":"Busqueda avanzada",
   "FAVORITOS":"Favoritos",
   "AJUSTES":"Ajustes",
   "MAPA":"Mapa",
@@ -21,6 +22,7 @@
   "LABORATORIO": "Laboratorio",
   "DESPACHO": "Despacho",
   "BUSCAR": "Buscar",
+  "MASINFO": "Mas información",
   "ACCEDER": "Acceder",
   "ESPANOL":"Español",
   "CARGANDO":"Cargando"

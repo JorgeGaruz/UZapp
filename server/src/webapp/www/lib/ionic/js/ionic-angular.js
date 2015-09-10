@@ -8212,7 +8212,7 @@ IonicModule
  *
  * **Performance Tips**:
  *
- * - The iOS webview has a performance bottleneck when switching out `<img src>` attributes.
+ * - The iOS webview has a performance bottleneck when switching out `<images src>` attributes.
  *   To increase performance of images on iOS, cache your images in advance and,
  *   if possible, lower the number of unique images. We're working on [a solution](https://github.com/driftyco/ionic/issues/3194).
  *
@@ -8229,7 +8229,7 @@ IonicModule
  * #### Grid of Images ([codepen](http://codepen.io/ionic/pen/5515d4efd9d66f780e96787387f41664))
  * ```html
  * <ion-content>
- *   <img collection-repeat="photo in photos"
+ *   <images collection-repeat="photo in photos"
  *     item-width="33%"
  *     item-height="200px"
  *     ng-src="{% raw %}{{photo.url}}{% endraw %}">
@@ -8243,7 +8243,7 @@ IonicModule
  *   <ion-scroll direction="x" class="available-scroller">
  *     <div class="photo" collection-repeat="photo in main.photos"
  *        item-height="250" item-width="photo.width + 30">
- *        <img ng-src="{{photo.src}}">
+ *        <images ng-src="{{photo.src}}">
  *     </div>
  *   </ion-scroll>
  * </ion-content>
@@ -8913,7 +8913,7 @@ function RepeatManagerFactory($rootScope, $window, $$rAF) {
         self.node.style.cssText += ' height: 0px; width: 0px;';
         ionic.Utils.disconnectScope(self.scope);
         containerNode.appendChild(self.node);
-        self.images = clone[0].getElementsByTagName('img');
+        self.images = clone[0].getElementsByTagName('images');
       });
     }
 
@@ -10407,7 +10407,7 @@ function keyboardAttachGetClientHeight(element) {
 *   <ion-item ng-repeat="item in items"
 *             class="item-thumbnail-left">
 *
-*     {% raw %}<img ng-src="{{item.img}}">
+*     {% raw %}<images ng-src="{{item.images}}">
 *     <h2>{{item.title}}</h2>
 *     <p>{{item.description}}</p>{% endraw %}
 *     <ion-option-button class="button-positive"
@@ -11028,7 +11028,7 @@ IonicModule
  * <ion-nav-view>
  *   <ion-view>
  *     <ion-nav-title>
- *       <img src="logo.svg">
+ *       <images src="logo.svg">
  *     </ion-nav-title>
  *     <ion-content>
  *       Some super content here!

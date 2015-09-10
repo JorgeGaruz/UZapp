@@ -55,5 +55,33 @@ public class EstanciasRestController {
 		return "";
 		
 	}
+	
+	@RequestMapping(
+			value = "/getEstancia", 
+			method = RequestMethod.GET,
+			produces = "application/json")
+	public String getEstancia(@RequestParam("estancia") String estancia){
+		logger.info("Servicio: infoEstancia()");
+		Connection connection = ConnectionManager.getConnection();
+		Gson gson = new Gson();
+		String query = "Select distinct \"A\".\"ID_ESPACIO\" ,\"A\".\"ID_CENTRO\", \"B\".\"TIPO_DE_USO\", round(\"A\".\"SUPERFICIE\",2) AS \"SUPERFICIE\" from \"TB_ESPACIOS\" \"A\",\"TB_TIPO_DE_USO\" \"B\"  WHERE \"A\".\"TIPO_DE_USO\" = \"B\".ID AND \"A\".\"ID_ESPACIO\" = '"+estancia+"' ";
+		System.out.println(query);
+		Espacios resultado;
+		try {
+			ResultSet respuesta = connection.prepareStatement(query).executeQuery();
+
+			if (respuesta.next()){
+				resultado=new Espacios(respuesta.getString("ID_ESPACIO"),respuesta.getString("ID_CENTRO"),respuesta.getString("TIPO_DE_USO"),respuesta.getString("SUPERFICIE"));
+				System.out.println("resultado"+gson.toJson(resultado));
+				return gson.toJson(resultado);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+		
+	}
 
 }

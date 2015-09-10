@@ -53,6 +53,15 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
               }
             }
           })
+          .state('app.busquedaavanzada', {
+              url: "/busquedaavanzada",
+              views: {
+                  'menuContent':{
+                      templateUrl: "templates/busquedaavanzada.html",
+                      controller: 'SearchCtrl'
+                  }
+              }
+          })
           .state('app.favoritos', {
             url: "/favoritos",
             views: {
@@ -80,7 +89,15 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
                   }
               }
           })
-          //Manera más simple de distinguir entre enfocar una ciudad u otra en el mapa
+          .state('app.estancia', {
+              url: "/estancia",
+              views: {
+                  'menuContent':{
+                      templateUrl: "templates/estancia.html",
+                      controller: 'EstanciaCtrl'
+                  }
+              }
+          })
           .state('app.mapa', {
               url: "/mapa",
               views: {

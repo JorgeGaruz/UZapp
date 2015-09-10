@@ -31,14 +31,14 @@ public class ConnectionManager {
 
 		try {
 		Class.forName(DRIVER_CLASS_NAME);
-		Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
+		//Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
 		//Scanner sc = new Scanner(new File("WEB-INF/classes/bd.txt"));//Usado en el servidor
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");
         p.setDriverClassName("org.postgresql.Driver");
-        p.setUsername(sc.next());
-        p.setPassword(sc.next());//contrasena de la BD
+        p.setUsername("prueba");
+        p.setPassword("pruebavm");//contrasena de la BD
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);
         p.setTestOnBorrow(true);
@@ -46,10 +46,10 @@ public class ConnectionManager {
         p.setTestOnReturn(false);
         p.setValidationInterval(30000);
         p.setTimeBetweenEvictionRunsMillis(30000);
-        p.setMaxActive(500);
+        p.setMaxActive(20);
         p.setInitialSize(10);
         p.setMaxWait(5000);
-        p.setMaxIdle(30);
+        p.setMaxIdle(15);
         p.setRemoveAbandonedTimeout(30);
         p.setMinEvictableIdleTimeMillis(30000);
         p.setMinIdle(10);
@@ -63,10 +63,10 @@ public class ConnectionManager {
         datasource.setPoolProperties(p);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace(System.err);
-		} catch (FileNotFoundException e) {
+		} /*catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 	

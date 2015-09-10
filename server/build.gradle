@@ -27,6 +27,9 @@ war {
 	destinationDir = file('warFiles')
 	baseName = 'UZapp'
 	version = '1.0'
+	/*from('src/main/resources') {
+        include 'bd.txt'
+    }*/
 }
 
 sourceCompatibility = 1.8

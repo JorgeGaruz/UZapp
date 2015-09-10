@@ -2932,7 +2932,7 @@ L.TileLayer = L.Class.extend({
 	_resetTile: function (/*tile*/) {},
 
 	_createTile: function () {
-		var tile = L.DomUtil.create('img', 'leaflet-tile');
+		var tile = L.DomUtil.create('images', 'leaflet-tile');
 		tile.style.width = tile.style.height = this._getTileSize() + 'px';
 		tile.galleryimg = 'no';
 
@@ -3254,7 +3254,7 @@ L.ImageOverlay = L.Class.extend({
 	},
 
 	_initImage: function () {
-		this._image = L.DomUtil.create('img', 'leaflet-image-layer');
+		this._image = L.DomUtil.create('images', 'leaflet-image-layer');
 
 		if (this._map.options.zoomAnimation && L.Browser.any3d) {
 			L.DomUtil.addClass(this._image, 'leaflet-zoom-animated');
@@ -3396,7 +3396,7 @@ L.Icon = L.Class.extend({
 	},
 
 	_createImg: function (src, el) {
-		el = el || document.createElement('img');
+		el = el || document.createElement('images');
 		el.src = src;
 		return el;
 	},
@@ -9046,7 +9046,7 @@ L.TileLayer.include({
 	},
 
 	_getLoadedTilesPercentage: function (container) {
-		var tiles = container.getElementsByTagName('img'),
+		var tiles = container.getElementsByTagName('images'),
 		    i, len, count = 0;
 
 		for (i = 0, len = tiles.length; i < len; i++) {
@@ -9059,7 +9059,7 @@ L.TileLayer.include({
 
 	// stops loading all tiles in the background layer
 	_stopLoadingImages: function (container) {
-		var tiles = Array.prototype.slice.call(container.getElementsByTagName('img')),
+		var tiles = Array.prototype.slice.call(container.getElementsByTagName('images')),
 		    i, len, tile;
 
 		for (i = 0, len = tiles.length; i < len; i++) {
