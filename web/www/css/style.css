@@ -102,17 +102,16 @@ html,body {
 
 /* Pagina Inicio */
 .logo-wrapper {
-    /*width: 40%;
-    height: 100%;
-    padding-top: 2%;
-    border-style: solid;
-    border-width: 1px;
-    margin-top:1%;
-    margin-left:30%;
-    margin-right:30%;
-    margin-bottom:1%;*/
-}
 
+    /*border-style: solid;
+    border-width: 1px;
+    margin-left:30%;
+    margin-right:30%;*/
+}
+IMG.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
 
 #boton{
     float:right;
@@ -141,4 +140,26 @@ img[usemap] {
     margin-left:10%;
     margin-bot: 45%;
 }
-
+#botonFotos{
+    height: 5%;
+    width: 15%;
+    float:right;
+    /*margin-top: 3%;
+    margin-left:75%;
+    margin-right:10%;*/
+}
+#botonVolver{
+    height: 5%;
+    width: 15%;
+    float:left;
+    /*margin-top: 3%;
+    margin-left:10%;
+    margin-right:75%;*/
+}
+#botones{
+    /*display:inline;*/
+    width:80%;
+    margin-top: 3%;
+    margin-left:10%;
+    margin-right:10%;
+}

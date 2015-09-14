@@ -16,7 +16,7 @@ app.service('geoService', function () {
         var hybrid = new L.Google('HYBRID');
 
         var MIN_ZOOM = 15;
-        var INIT_ZOOM = 14;
+        var INIT_ZOOM = 15;
         var MAX_ZOOM = 15;
 
         //Centro ciudad
@@ -49,15 +49,6 @@ app.service('geoService', function () {
 
         L.control.locate().addTo($scope.map);
 
-
-        var html = '<div id="popup" class=\"text-center\"><b>Campus San Francisco</b><br>C/Pedro Cerbuna, 12</div> Seleccionar planta <select id="prueba" class="ion-input-select" onchange="selectPlano(this)" ng-model="plantaPopup" >' +
-        '<option value="1">1</option>'+
-        '<option value="2">2</option>' +
-        '<option value="3">SS</option>' +
-        '</select>';
-
-         L.marker([41.642305, -0.897683]).addTo($scope.map)
-             .bindPopup(html);
         markerLayer = new L.LayerGroup();	//layer contain searched elements
         $scope.map.addLayer(markerLayer);
          var controlSearch = new L.Control.Search({layer: markerLayer, initial: true, position:'topright'});

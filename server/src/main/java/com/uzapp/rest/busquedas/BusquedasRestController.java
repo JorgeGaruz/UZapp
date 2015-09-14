@@ -64,6 +64,8 @@ public class BusquedasRestController {
 			produces = "application/json")
 	public String campus(@RequestParam("ciudad") String ciudad){
 		logger.info("Servicio: campus()");
+		logger.info("Working Directory = " +
+              System.getProperty("user.dir"));
 		Connection connection = ConnectionManager.getConnection();
 		Gson gson = new Gson();
 		String query = "Select distinct \"ID\" , \"CAMPUS\" from \"TB_CODIGOS_DE_CAMPUS\" WHERE \"CIUDAD\" = "+ciudad+" ORDER BY \"CAMPUS\" ASC";

@@ -142,6 +142,28 @@
           angular.element(document.querySelector('#superficie_estancia')).html(data.superficie);
         }
     );
+    $scope.mostrarFoto = function() {//Comprueba si hay imagenes para dicha estancia, si no hay muestra un error, si lo hay, lo carga al usuario
+      console.log("eehh");
+      var url = "http://155.210.14.31:8080/mapa/www/fotos/"+estancia+"(1) [640x480].jpg";
+      $.ajax({
+        url:url,
+        type:'HEAD',
+        error: function()
+        {
+          alert('{{translation.NOPHOTO}}');
+        },
+        success: function()
+        {
+          window.location = url;
+        }
+      });
+
+    }
+
+    $scope.volver = function() {
+      console.log("eehh");
+      window.history.back();
+    }
   })
 
 

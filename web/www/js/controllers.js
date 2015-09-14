@@ -118,6 +118,7 @@
           console.log(langKey);
           $scope.selectedLanguage = langKey;
           $scope.translate();
+          mapa = undefined;//Por si hay cambio de idioma, que se repinte el mapa en inglés si ya se habia visitado
         };
 
         //Init
@@ -142,10 +143,31 @@
           angular.element(document.querySelector('#superficie_estancia')).html(data.superficie);
         }
     );
+    $scope.mostrarFoto = function() {//Comprueba si hay imagenes para dicha estancia, si no hay muestra un error, si lo hay, lo carga al usuario
+      var url = "http://155.210.14.31:8080/mapa/www/fotos/"+estancia+"(1) [640x480].jpg";
+      $.ajax({
+        url:url,
+        type:'HEAD',
+        error: function()
+        {
+          alert($scope.translation.NOPHOTO);
+        },
+        success: function()
+        {
+          window.location = url;
+        }
+      });
+
+    }
+
+    $scope.volver = function() {
+      window.history.back();
+    }
   })
 
 
   app.controller('SearchCtrl', function($scope,$rootScope, GetInfoService) {
+
 
     $scope.busquedaEspacios = function() {
       GetInfoService.getEspacios().then(

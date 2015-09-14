@@ -15,6 +15,10 @@
   "SELECCIONAR_PLANTA":"Planta",
   "SELECCIONAR_ESTANCIA":"Estancia",
   "SELECCIONAR_CODIGO_ESPACIO":"Codigo de espacio",
+  "DATOSESTANCIA": "Datos de la estancia",
+  "DATOSNOMBRE": "Nombre",
+  "DATOSTIPO": "Tipo",
+  "DATOSSUPERFICIE": "Superficie",
   "PRIMERA" : "Primera",
   "SEGUNDA": "Segunda",
   "TERCERA": "Tercera",
@@ -25,5 +29,8 @@
   "MASINFO": "Mas información",
   "ACCEDER": "Acceder",
   "ESPANOL":"Español",
-  "CARGANDO":"Cargando"
+  "CARGANDO":"Cargando",
+  "NOPHOTO": "Esta estancia no tiene foto",
+  "BACK": "Volver",
+  "PHOTO": "Foto"
 }

@@ -31,14 +31,14 @@ public class ConnectionManager {
 
 		try {
 		Class.forName(DRIVER_CLASS_NAME);
-		//Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
+		Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
 		//Scanner sc = new Scanner(new File("WEB-INF/classes/bd.txt"));//Usado en el servidor
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");
         p.setDriverClassName("org.postgresql.Driver");
-        p.setUsername("prueba");
-        p.setPassword("pruebavm");//contrasena de la BD
+        p.setUsername(sc.next());
+        p.setPassword(sc.next());//contrasena de la BD
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);
         p.setTestOnBorrow(true);
@@ -63,10 +63,10 @@ public class ConnectionManager {
         datasource.setPoolProperties(p);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace(System.err);
-		} /*catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 	}
 	

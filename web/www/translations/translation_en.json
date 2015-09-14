@@ -15,6 +15,10 @@
   "SELECCIONAR_PLANTA":"Floor",
   "SELECCIONAR_ESTANCIA":"Room",
   "SELECCIONAR_CODIGO_ESPACIO":"Space code",
+  "DATOSESTANCIA": "Data room",
+  "DATOSNOMBRE": "Name",
+  "DATOSTIPO": "Type",
+  "DATOSSUPERFICIE": "Area",
   "PRIMERA" : "First",
   "SEGUNDA": "Second",
   "TERCERA": "Third",
@@ -25,5 +29,8 @@
   "MASINFO": "More info",
   "ACCEDER": "Go",
   "ESPANOL":"Spanish",
-  "CARGANDO": "Loading"
+  "CARGANDO": "Loading",
+  "NOPHOTO": "This room has no photo",
+  "BACK": "Back",
+  "PHOTO": "Photo"
 }
