@@ -15,6 +15,8 @@
   "SELECCIONAR_PLANTA":"Floor",
   "SELECCIONAR_ESTANCIA":"Room",
   "SELECCIONAR_CODIGO_ESPACIO":"Space code",
+  "SELECCIONAR_FOTO": "Select the photo number",
+  "ALERT_SELECT": "Please, fill out all the form",
   "DATOSESTANCIA": "Data room",
   "DATOSNOMBRE": "Name",
   "DATOSTIPO": "Type",
@@ -26,11 +28,15 @@
   "LABORATORIO": "Lab",
   "DESPACHO": "Office",
   "BUSCAR": "Search",
-  "MASINFO": "More info",
+  "MASINFO": "Info",
   "ACCEDER": "Go",
   "ESPANOL":"Spanish",
   "CARGANDO": "Loading",
   "NOPHOTO": "This room has no photo",
   "BACK": "Back",
-  "PHOTO": "Photo"
+  "PREVIOUS": "Previous",
+  "NEXT": "Next",
+  "PHOTO": "Photo",
+  "ADDFAVOURITE": "Favourite added",
+  "NAVEGADORNOCOMPATIBLE": "Probably, your browser is incompatible with this application."
 }

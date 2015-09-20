@@ -83,5 +83,31 @@ public class EstanciasRestController {
 		return "";
 		
 	}
+	
+	@RequestMapping(
+			value = "/getAllEstancias", 
+			method = RequestMethod.GET,
+			produces = "application/json")
+	public String getAllEstancias(@RequestParam("estancia") String espacio){
+		logger.info("Servicio: infoEstancia()");
+		Connection connection = ConnectionManager.getConnection();
+		Gson gson = new Gson();
+		String query = "Select distinct \"ID_ESPACIO\" ,\"ID_CENTRO\" from \"TB_ESPACIOS\" WHERE \"ID_ESPACIO\" LIKE '%"+espacio+ "%'  ORDER BY \"ID_CENTRO\" ASC";
+		System.out.println(query);
+		List<Espacios> resultado = new ArrayList<Espacios>();
+		try {
+			ResultSet respuesta = connection.prepareStatement(query).executeQuery();
+
+			while (respuesta.next()){
+				resultado.add(new Espacios(respuesta.getString("ID_ESPACIO"),respuesta.getString("ID_CENTRO")));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return gson.toJson(resultado);
+		
+	}
 
 }

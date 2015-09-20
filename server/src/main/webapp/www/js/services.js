@@ -9,6 +9,7 @@ app.service('geoService', function () {
 
 
     this.crearMapa = function($scope,miFactoria,opcion, GetInfoService){
+        opcion = typeof opcion !== 'undefined' ? opcion : 0;//Si no tenemos valor, por defecto escogemos zaragoza
 
         $scope.factorias = miFactoria.datosMapa;
         var ggl = new L.Google('ROADMAP');
@@ -51,17 +52,9 @@ app.service('geoService', function () {
 
         markerLayer = new L.LayerGroup();	//layer contain searched elements
         $scope.map.addLayer(markerLayer);
-         var controlSearch = new L.Control.Search({layer: markerLayer, initial: true, position:'topright'});
+         var controlSearch = new L.Control.Search({layer: markerLayer, initial: false, position:'topright'});
         $scope.map.addControl( controlSearch );
 
-        /* L.marker([41.683029, -0.883228]).addTo($scope.map)
-             .bindPopup("<div class=\"text-center\"><b>Campus Rio Ebro, Betancourt</b><br>C/María de Luna, s/n</div>");
-
-         L.marker([41.681527, -0.883861]).addTo($scope.map)
-             .bindPopup("<div class=\"text-center\"><b>Campus Rio Ebro, Lorenzo Normante</b><br>C/María de Luna, s/n</div>");
-
-         L.marker([41.634882, -0.861936]).addTo($scope.map)
-             .bindPopup("<div class=\"text-center\"><b>Campus Veterinaria, Hospital Clínico</b><br>1ª planta, pasillo Admón. de Patología</div>");*/
 
         L.marker([42.142172, -0.405557]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Huesca</b><br>Ronda Misericordia, 5</div>");
@@ -69,7 +62,6 @@ app.service('geoService', function () {
         L.marker([40.351661, -1.110081]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Vicerrectorado Campus Teruel</b><br>C/Ciudad Escolar, s/n</div>");
 
-        //var mywms;
         for (i=0;i<edificios.length;i++){
             var mywms = L.tileLayer.wms("http://155.210.14.31:8080/geoserver/wms", {//Seria interesante probar con L.tileLayer.betterWMS
                 layers: 'proyecto:'+edificios[i].toLowerCase(),
@@ -108,7 +100,7 @@ app.service('geoService', function () {
 
                     var edificio = $scope.descripcion[0];
 
-                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> Seleccionar planta <select class="ion-input-select" onchange="if(this!=undefined)selectPlano(this);" ng-model="plantaPopup" >';
+                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> '+$scope.translation.SELECCIONAR_PLANTA+' <select class="ion-input-select" onchange="if(this!=undefined)selectPlano(this);" ng-model="plantaPopup" >';
                     html+='<option value=undefined selected="selected"></option>';
                     for (i=0;i<edificio.plantas.length;i++){//Bucle para cargar en el select todas las plantas
                         html+='<option value="'+edificios[index].substring(0,9)+edificio.plantas[i]+'">'+edificio.plantas[i]+'</option>';
@@ -202,7 +194,7 @@ app.service('geoService', function () {
                     if (data.length == 0) {
                         $scope.resultadoEstanciaVacio = true;
                     }
-                    var html = data.ID_espacio + ' ' + data.ID_centro + '<br/><button value="'+data.ID_espacio+'" class="button button-positive" onclick="informacionEstancia(this)">Más Información </button>';
+                    var html = data.ID_espacio + ' ' + data.ID_centro + '<br/><button value="'+data.ID_espacio+'" class="button button-positive" onclick="informacionEstancia(this)">'+$scope.translation.MASINFO+' </button>';
                     e.layer.bindPopup(html).openPopup();
                 }
             );

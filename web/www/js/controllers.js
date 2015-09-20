@@ -5,8 +5,8 @@
     return {
       datosMapa: [{
         nombre: "Zaragoza",
-        latitud: 41.653496,
-        longitud: -0.889492
+        latitud: 41.6487908,
+        longitud: -0.889581
       },
         {
           nombre: "Huesca",
@@ -27,7 +27,14 @@
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
-  app.controller('AppCtrl',function($scope,$rootScope,geoService,miFactoria) {
+  app.controller('AppCtrl',function($scope,$rootScope,geoService,miFactoria,$window) {
+
+    var userAgent = $window.navigator.userAgent;
+
+    if (/firefox/i.test(userAgent)) {
+      alert($scope.translation.NAVEGADORNOCOMPATIBLE);
+    }
+
 
     // Si la pulsación ha sido en la vista de inicio
     $scope.Huesca = function() {
@@ -71,10 +78,6 @@
     mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
     console.log(mapa);
 
-    $scope.selectPlano = function(planta) {//Selecciono un plano de la planta seleccionada.
-      console.log("alcanzado");
-      window.location = "templates/plano.html"
-    }
 
   });
 
@@ -84,7 +87,6 @@
   app.controller('PlanCtrl',function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService) {
 
     //mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
-    console.log(mapa);
     geoService.crearPlano($scope,$http, GetInfoService);
 
   });
@@ -127,7 +129,7 @@
 
       }])
 
-  app.controller('EstanciaCtrl', function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService){
+  app.controller('EstanciaCtrl', function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService,$timeout,$window){
     var estancia=localStorage.estancia;
 
     GetInfoService.getEstancia(estancia).then(
@@ -144,26 +146,110 @@
         }
     );
     $scope.mostrarFoto = function() {//Comprueba si hay imagenes para dicha estancia, si no hay muestra un error, si lo hay, lo carga al usuario
-      var url = "http://155.210.14.31:8080/mapa/www/fotos/"+estancia+"(1) [640x480].jpg";
-      $.ajax({
-        url:url,
-        type:'HEAD',
-        error: function()
-        {
-          alert($scope.translation.NOPHOTO);
-        },
-        success: function()
-        {
-          window.location = url;
-        }
+      var fotos = 0;
+      var salirbucle = false;
+      for (i = 1; i <= 6 && !salirbucle; i++) {//Menor que 6 porque es el maximo de fotos de las que se dispone de una misma estancia
+        //console.log(i);
+        var url = "http://155.210.14.31:8080/mapa/www/fotos/" + estancia + "(" + i + ") [640x480].jpg";
+        $.ajax({
+          url: url,
+          type: 'HEAD',
+          async: false,
+          error: function () {
+            if (i == 1) alert($scope.translation.NOPHOTO);//Si no hay ninguna foto mostrar alerta
+            salirbucle = true;
+          },
+          success: function () {
+            fotos++;
+          }
+        });
+
+      }
+      $rootScope.numeroFotos = fotos;
+      if (fotos > 0) {
+
+        var url = "http://155.210.14.31:8080/mapa/www/fotos/" + estancia + "(";
+        console.log(url);
+        $rootScope.urlFoto = url;
+        $rootScope.fotoSelecionada = Number(1);//Para empezar mostrando la imagen primera
+        //$window.location.href = url;
+        window.location = "#/app/foto";
+
+      }
+    }
+
+
+    $scope.volver = function() {
+      estancia = undefined;
+      window.history.back();
+    }
+
+    $scope.favoritos = function() {
+      localStorage.favoritos+=estancia;
+      var alertPopup = $ionicPopup.alert({
+        title: $scope.translation.ADDFAVOURITE
       });
+      alertPopup.then(function(res) {
+        //console.log('Thank you for not eating my delicious ice cream cone');
+      });
+    }
+  })
+
+  app.controller('FotoCtrl', function($scope, $rootScope, $ionicPopup, $http, $filter,geoService,miFactoria, GetInfoService,$timeout,$window){
+    $scope.buttonAnterior=true;
+    var html = '<img src="'+$rootScope.urlFoto+ $rootScope.fotoSelecionada+') [640x480].jpg""> </img>';
+    $("#fotoEstancia").html(html);
+    var html2 = "<strong>Foto "+$rootScope.fotoSelecionada+" de "+$rootScope.numeroFotos+"</strong>";
+    $("#datosFotos").html(html2);
+    $scope.anterior = function() {
+      if($rootScope.fotoSelecionada-1 >0){
+        $rootScope.fotoSelecionada=$rootScope.fotoSelecionada-1;
+
+        //window.location = "#/app/foto";
+        var html = '<img src="'+$rootScope.urlFoto+ $rootScope.fotoSelecionada+') [640x480].jpg""> </img>';
+        var html2 = "<strong>Foto "+$rootScope.fotoSelecionada+" de "+$rootScope.numeroFotos+"</strong>";
+
+        $scope.buttonSiguiente=false;//se activa si pasamos a una foto anterior
+        if($rootScope.fotoSelecionada-1<1){//Si no hay mas fotos anteriores, inactivar el boton
+          $scope.buttonAnterior=true;
+        }else{
+          $scope.buttonAnterior=false;
+        }
+        $("#fotoEstancia").html(html);
+        $("#datosFotos").html(html2);
+      }
+      else{
+        $scope.buttonAnterior=true;
+      }
+
+    }
+    $scope.siguiente = function() {
+
+      if(parseInt($rootScope.fotoSelecionada+1) <= parseInt($rootScope.numeroFotos)){
+        $rootScope.fotoSelecionada=$rootScope.fotoSelecionada+1;
+        var html = '<img src="'+$rootScope.urlFoto+ $rootScope.fotoSelecionada+') [640x480].jpg""> </img>';
+        var html2 = "<strong>Foto "+$rootScope.fotoSelecionada+" de "+$rootScope.numeroFotos+"</strong>";
+
+        $scope.buttonAnterior=false;//se activa si pasamos a una foto siguiente
+        if($rootScope.fotoSelecionada+1>$rootScope.numeroFotos){//Si no hay mas fotos siguientes, inactivar el boton
+          $scope.buttonSiguiente=true;
+        }else{
+          $scope.buttonSiguiente=false;
+        }
+        $("#fotoEstancia").html(html);
+        $("#datosFotos").html(html2);
+      }
+      else{
+        $scope.buttonSiguiente=true;
+      }
 
     }
 
     $scope.volver = function() {
       window.history.back();
     }
-  })
+
+    })
 
 
   app.controller('SearchCtrl', function($scope,$rootScope, GetInfoService) {
@@ -215,10 +301,38 @@
 
       for (x=0;x<$rootScope.Edificio.length;x++){
         if($rootScope.Edificio[x].ID_Edificio==edif){//Saber el edificio selecionado que tenemos que incluir el Select de plantas
+          $rootScope.EdificioEscogido = edif;//Se utiliza para en el siguiente select
           $rootScope.Planta = $rootScope.Edificio[x].plantas;
         }
       }
     }
+
+    $scope.selectEstancia = function(planta) {//Cuando selecciono una planta, busco todas las estancias de dicha planta
+
+      GetInfoService.getAllEstancias($rootScope.EdificioEscogido+planta).then(
+          function (data) {
+            $rootScope.Estancias = data;
+            console.log(data);
+            if (data.length == 0){
+              $rootScope.resultadoEstanciasVacio = true;
+            }
+
+          }
+      );
+    }
+
+    $scope.busqueda = function() {//Cuando selecciono un edificio, tengo que buscar el numero de plantas de dicho edificio
+      if(($("#selectCiudad option:selected").text().trim() == "")||($("#selectCampus option:selected").text().trim() == "")||
+          ($("#selectEdificio option:selected").text().trim() == "")|| ($("#selectPlanta option:selected").text().trim() == "")||
+          ($("#selectEstancia option:selected").text().trim() == "")){//Comprobar que no haya ningún select vacio
+          alert($scope.translation.ALERT_SELECT);
+      }
+      else{
+        localStorage.estancia = $("#selectEstancia option:selected").val().trim();
+        window.location = "#/app/estancia";
+      }
+    }
+
 
 
   });
@@ -400,6 +514,28 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     return deferred.promise;
   };
 
+  var getAllEstancias = function (estancia) {
+    var deferred = $q.defer();
+    var request = {
+      method: 'GET',
+      url: URI_estancias + '/getAllEstancias?estancia='+estancia,
+      contentType: 'application/json',
+      dataType: "json"
+    };
+    $timeout(function () {
+      $http(request).then(
+          function (result) {
+            deferred.resolve(result.data);
+          },
+          function(err){
+            console.log(err.status);
+            $rootScope.resultadoEdificioError = true;
+          }
+      );
+    });
+    return deferred.promise;
+  };
+
   //Definición de las funciones anteriores para poder ser utilizadas
   return {
     getEspacios: getEspacios,
@@ -407,7 +543,8 @@ app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) 
     getEdificio: getEdificio,
     getInfoEdificio:getInfoEdificio,
     getInfoEstancia:getInfoEstancia,
-    getEstancia:getEstancia
+    getEstancia:getEstancia,
+    getAllEstancias:getAllEstancias
   };
 });
 

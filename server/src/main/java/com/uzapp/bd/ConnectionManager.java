@@ -31,8 +31,8 @@ public class ConnectionManager {
 
 		try {
 		Class.forName(DRIVER_CLASS_NAME);
-		Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
-		//Scanner sc = new Scanner(new File("WEB-INF/classes/bd.txt"));//Usado en el servidor
+		//Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
+		Scanner sc = new Scanner(new File("webapps/mapa/WEB-INF/classes/bd.txt"));//Usado en el servidor
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");
@@ -46,11 +46,11 @@ public class ConnectionManager {
         p.setTestOnReturn(false);
         p.setValidationInterval(30000);
         p.setTimeBetweenEvictionRunsMillis(30000);
-        p.setMaxActive(20);
+        p.setMaxActive(100);
         p.setInitialSize(10);
         p.setMaxWait(5000);
-        p.setMaxIdle(15);
-        p.setRemoveAbandonedTimeout(30);
+        p.setMaxIdle(30);
+        p.setRemoveAbandonedTimeout(300);
         p.setMinEvictableIdleTimeMillis(30000);
         p.setMinIdle(10);
         p.setLogAbandoned(true);

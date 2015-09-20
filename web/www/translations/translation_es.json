@@ -1,7 +1,7 @@
 {
   "INICIO":"Inicio",
-  "BUSQUEDA":"Busqueda",
-  "BUSQUEDAAVANZADA":"Busqueda avanzada",
+  "BUSQUEDA":"Búsqueda",
+  "BUSQUEDAAVANZADA":"Búsqueda avanzada",
   "FAVORITOS":"Favoritos",
   "AJUSTES":"Ajustes",
   "MAPA":"Mapa",
@@ -14,7 +14,9 @@
   "SELECCIONAR_EDIFICIO":"Edificio",
   "SELECCIONAR_PLANTA":"Planta",
   "SELECCIONAR_ESTANCIA":"Estancia",
-  "SELECCIONAR_CODIGO_ESPACIO":"Codigo de espacio",
+  "SELECCIONAR_CODIGO_ESPACIO":"Código de espacio",
+  "SELECCIONAR_FOTO": "Selecciona el número de la foto",
+  "ALERT_SELECT": "Por favor, rellene todo el formulario",
   "DATOSESTANCIA": "Datos de la estancia",
   "DATOSNOMBRE": "Nombre",
   "DATOSTIPO": "Tipo",
@@ -26,11 +28,15 @@
   "LABORATORIO": "Laboratorio",
   "DESPACHO": "Despacho",
   "BUSCAR": "Buscar",
-  "MASINFO": "Mas información",
+  "MASINFO": "Más información",
   "ACCEDER": "Acceder",
   "ESPANOL":"Español",
   "CARGANDO":"Cargando",
   "NOPHOTO": "Esta estancia no tiene foto",
   "BACK": "Volver",
-  "PHOTO": "Foto"
+  "PREVIOUS": "Anterior",
+  "NEXT": "Siguiente",
+  "PHOTO": "Foto",
+  "ADDFAVOURITE": "Favorito añadido",
+  "NAVEGADORNOCOMPATIBLE": "Es probable que haya incompatibilidades con su navegador al utilizar la aplicación"
 }

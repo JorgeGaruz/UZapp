@@ -98,6 +98,15 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
                   }
               }
           })
+          .state('app.foto', {
+              url: "/foto",
+              views: {
+                  'menuContent':{
+                      templateUrl: "templates/foto.html",
+                      controller: 'FotoCtrl'
+                  }
+              }
+          })
           .state('app.mapa', {
               url: "/mapa",
               views: {
