@@ -31,8 +31,8 @@ public class ConnectionManager {
 
 		try {
 		Class.forName(DRIVER_CLASS_NAME);
-		//Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
-		Scanner sc = new Scanner(new File("webapps/mapa/WEB-INF/classes/bd.txt"));//Usado en el servidor
+		Scanner sc = new Scanner(new File("src/main/resources/bd.txt"));//Usado en local
+		//Scanner sc = new Scanner(new File("webapps/mapa/WEB-INF/classes/bd.txt"));//Usado en el servidor
 
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://155.210.14.31:5432/pruebadb");

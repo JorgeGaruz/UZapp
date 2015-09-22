@@ -37,5 +37,6 @@
   "PREVIOUS": "Anterior",
   "NEXT": "Siguiente",
   "PHOTO": "Foto",
-  "ADDFAVOURITE": "Favorito añadido"
+  "ADDFAVOURITE": "Favorito añadido",
+  "NAVEGADORNOCOMPATIBLE": "Es probable que haya incompatibilidades con su navegador al utilizar la aplicación"
 }

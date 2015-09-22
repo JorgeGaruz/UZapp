@@ -27,7 +27,14 @@
   /**********************************************************************
    * AppCtrl: Controlador principal de la aplicación.
    ***********************************************************************/
-  app.controller('AppCtrl',function($scope,$rootScope,geoService,miFactoria) {
+  app.controller('AppCtrl',function($scope,$rootScope,geoService,miFactoria,$window) {
+
+    var userAgent = $window.navigator.userAgent;
+
+    if (/firefox/i.test(userAgent)) {
+      alert($scope.translation.NAVEGADORNOCOMPATIBLE);
+    }
+
 
     // Si la pulsación ha sido en la vista de inicio
     $scope.Huesca = function() {
@@ -71,10 +78,6 @@
     mapa=geoService.crearMapa($scope,miFactoria,opcion, GetInfoService);
     console.log(mapa);
 
-    $scope.selectPlano = function(planta) {//Selecciono un plano de la planta seleccionada.
-      console.log("alcanzado");
-      window.location = "templates/plano.html"
-    }
 
   });
 
