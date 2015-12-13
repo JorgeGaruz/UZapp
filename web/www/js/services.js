@@ -138,9 +138,9 @@ app.service('geoService', function () {
      * para poder calcular ruta hasta ellos.
      */
     function rellenarCampus($scope){
-        var redireccionPopup = "'https://maps.google.es/maps?saddr=" + latUser + "," + lonUser + "&daddr=41.6842964,-0.8884119'";
+        var redireccionPopup = "'https://maps.google.es/maps?saddr=" + latUser + "," + lonUser + "&daddr=41.6830208,-0.8886136'";
 
-        L.marker([41.6842964, -0.8884119]).addTo($scope.map)
+        L.marker([41.6830208, -0.8886136]).addTo($scope.map)
             .bindPopup('<div class=\"text-center\"><b>Campus Rio Ebro</b><br>C/María de Luna, s/n</div>' +
             '<button class="button button-positive" onclick="location.href ='+redireccionPopup+'" >'+$scope.translation.HOWTOARRIVE+' </button>');
 
