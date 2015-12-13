@@ -3,8 +3,10 @@ var app = angular.module('starter.services', []);
 
 var mapa;//La unica manera que he encontrado de modificar la vista del mapa desde el menú(ya que usan distintos controladores) es por var.global
 var plano;
-var edificios = ["CSF_1018_","CSF_1110_00","CSF_1106_00"];
+var edificios = ["CSF_1018_00","CSF_1110_00","CSF_1106_00","CSF_1021_00","CSF_1095_00","CSF_1097_00","CSF_1017_00","CSF_1022_00"];
 var markerLayer;
+var latUser;
+var lonUser;
 app.service('geoService', function () {
 
 
@@ -55,7 +57,6 @@ app.service('geoService', function () {
          var controlSearch = new L.Control.Search({layer: markerLayer, initial: false, position:'topright'});
         $scope.map.addControl( controlSearch );
 
-
         L.marker([42.142172, -0.405557]).addTo($scope.map)
             .bindPopup("<div class=\"text-center\"><b>Campus Huesca</b><br>Ronda Misericordia, 5</div>");
 
@@ -75,6 +76,17 @@ app.service('geoService', function () {
             });
 
        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+                latUser = position.coords.latitude;
+                lonUser = position.coords.longitude;
+                /* Al añadir edificios de los demás campus, borrar esta parte */
+                rellenarCampus($scope);
+
+            });
+        }
+
 
         mapa = $scope.map;
         return $scope.map;
@@ -100,12 +112,16 @@ app.service('geoService', function () {
 
                     var edificio = $scope.descripcion[0];
 
-                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> '+$scope.translation.SELECCIONAR_PLANTA+' <select class="ion-input-select" onchange="if(this!=undefined)selectPlano(this);" ng-model="plantaPopup" >';
+                    var html = '<div id="popup" class=\"text-center\"><b>'+edificio.edificio+'</b><br>'+edificio.direccion+'</div> '+$scope.translation.SELECCIONAR_PLANTA+' <select class="ion-input-select selectMap" onchange="if(this!=undefined)selectPlano(this);" ng-model="plantaPopup" >';
                     html+='<option value=undefined selected="selected"></option>';
                     for (i=0;i<edificio.plantas.length;i++){//Bucle para cargar en el select todas las plantas
                         html+='<option value="'+edificios[index].substring(0,9)+edificio.plantas[i]+'">'+edificio.plantas[i]+'</option>';
                     }
+                    var redireccion = "'https://maps.google.es/maps?saddr=" + latUser + "," + lonUser + "&daddr=" + coordenadas[1]+ ',' + coordenadas[0]+"'";
+                    console.log(redireccion);
+
                     html+='</select>';
+                    html+='<button class="button button-positive" onclick="location.href ='+redireccion+'" >'+$scope.translation.HOWTOARRIVE+' </button>';
 
 
                    var marker=new L.marker([coordenadas[1], coordenadas[0]],{title:edificio.edificio}).addTo($scope.map)
@@ -117,6 +133,28 @@ app.service('geoService', function () {
 
         }
     }
+
+    /* Método para crear Popups en los campus que no estén completados con sus edficios
+     * para poder calcular ruta hasta ellos.
+     */
+    function rellenarCampus($scope){
+        var redireccionPopup = "'https://maps.google.es/maps?saddr=" + latUser + "," + lonUser + "&daddr=41.6842964,-0.8884119'";
+
+        L.marker([41.6842964, -0.8884119]).addTo($scope.map)
+            .bindPopup('<div class=\"text-center\"><b>Campus Rio Ebro</b><br>C/María de Luna, s/n</div>' +
+            '<button class="button button-positive" onclick="location.href ='+redireccionPopup+'" >'+$scope.translation.HOWTOARRIVE+' </button>');
+
+        redireccionPopup = "'https://maps.google.es/maps?saddr=" + latUser + "," + lonUser + "&daddr=41.6465754,-0.8878908'";
+        L.marker([41.6465754, -0.8878908]).addTo($scope.map)
+            .bindPopup('<div class=\"text-center\"><b>Campus Gran Vía, Facultad Económicas</b><br>Paseo de la Gran Via, 2</div>' +
+            '<button class="button button-positive" onclick="location.href ='+redireccionPopup+'" >'+$scope.translation.HOWTOARRIVE+' </button>');
+
+        redireccionPopup = "'https://maps.google.es/maps?saddr=" + latUser + "," + lonUser + "&daddr=41.6347223,-0.8630691'";
+        L.marker([41.6347223, -0.8630691]).addTo($scope.map)
+            .bindPopup('<div class=\"text-center\"><b>Facultad de Veterinaria</b><br>Calle Miguel Servet, 177</div>' +
+            '<button class="button button-positive" onclick="location.href ='+redireccionPopup+'" >'+$scope.translation.HOWTOARRIVE+' </button>');
+    }
+
 
     this.localizarZaragoza= function ($scope,miFactoria){
         $scope.factorias = miFactoria.datosMapa;
@@ -203,5 +241,6 @@ app.service('geoService', function () {
         }
 
     }
+
 
 });

@@ -347,10 +347,10 @@
  * FACTORY: Servicio que define todas las llamadas al web service para recoger los datos
  ***********************************************************************/
 app.factory('GetInfoService', function($http, $q, $timeout, $state, $rootScope) {
-  var URI_busquedas = 'http://localhost:8080/busquedas';
-  var URI_estancias = 'http://localhost:8080/estancias';
-  //var URI_busquedas = 'http://155.210.14.31:8080/mapa/busquedas';
-  //var URI_estancias = 'http://155.210.14.31:8080/mapa/estancias';
+  //var URI_busquedas = 'http://localhost:8080/busquedas';
+  //var URI_estancias = 'http://localhost:8080/estancias';
+  var URI_busquedas = 'http://155.210.14.31:8080/mapa/busquedas';
+  var URI_estancias = 'http://155.210.14.31:8080/mapa/estancias';
 
   //Llamada AJAX al web service para recoger los codigos de espacio para rellenar el SELECT de busqueda
   var getEspacios = function () {

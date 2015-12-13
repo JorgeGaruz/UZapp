@@ -8,6 +8,7 @@
   "PLANO":"Plano",
   "SALIR":"Salir",
   "INGLES":"Inglés",
+  "PORTUGUES": "Portugués",
   "SELECCIONAR_IDIOMA":"Selecciona el idioma para la aplicación",
   "SELECCIONAR_CIUDAD":"Ciudad",
   "SELECCIONAR_CAMPUS":"Campus",
@@ -38,5 +39,6 @@
   "NEXT": "Siguiente",
   "PHOTO": "Foto",
   "ADDFAVOURITE": "Favorito añadido",
-  "NAVEGADORNOCOMPATIBLE": "Es probable que haya incompatibilidades con su navegador al utilizar la aplicación"
+  "NAVEGADORNOCOMPATIBLE": "Es probable que haya incompatibilidades con su navegador al utilizar la aplicación",
+  "HOWTOARRIVE": "Como llegar"
 }
